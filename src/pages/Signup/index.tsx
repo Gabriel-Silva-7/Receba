@@ -11,10 +11,23 @@ const steps = ['Basic info', 'Contact info', 'Login info'];
 const Signup: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
 
+  const handleNext = () => {
+    setActiveStep(prevActiveStep => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep(prevActiveStep => prevActiveStep - 1);
+  };
+
   return (
     <S.Container>
       <S.HeaderNav>
-        <h3>Receba!</h3>
+        <h3
+          onClick={() => (window.location.href = '/')}
+          style={{ cursor: 'pointer' }}
+        >
+          Receba!
+        </h3>
       </S.HeaderNav>
       <S.FormContainer>
         <S.Title>Cadastre-se</S.Title>
@@ -55,9 +68,34 @@ const Signup: React.FC = () => {
             ))}
           </Stepper>
         </Box>
-        <S.FormWrapper>
-          <button onClick={() => setActiveStep(activeStep + 1)}>Next</button>
-        </S.FormWrapper>
+        {steps.map((label, index) => (
+          <S.FormWrapper
+            key={label}
+            style={{
+              height: activeStep === index ? '765px' : '100px',
+              overflow: 'hidden',
+              transition: 'height 0.3s ease',
+            }}
+          >
+            {activeStep === index ? (
+              <div>
+                <h2>{label}</h2>
+                <p>Form content for {label}</p>
+                <button
+                  onClick={handleNext}
+                  disabled={activeStep === steps.length - 1}
+                >
+                  Next
+                </button>
+                <button onClick={handleBack} disabled={activeStep === 0}>
+                  Back
+                </button>
+              </div>
+            ) : (
+              <h2>{label}</h2>
+            )}
+          </S.FormWrapper>
+        ))}
       </S.FormContainer>
     </S.Container>
   );

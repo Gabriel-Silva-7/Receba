@@ -4,7 +4,6 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  flex-shrink: 0;
   background: #f5f5f5;
 `;
 
@@ -24,6 +23,7 @@ export const FormContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 300px;
 `;
 
 export const Title = styled.span`
@@ -58,4 +58,8 @@ export const FormWrapper = styled.div`
   gap: 19px;
   width: 611px;
   height: 765px;
+
+  & + & {
+    margin-top: 24px;
+  }
 `;
