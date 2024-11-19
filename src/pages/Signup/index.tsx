@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as S from './styles';
-import logo from '../../assets/logo.png';
+// import logo from '../../assets/logo.png';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -55,7 +55,9 @@ const Signup: React.FC = () => {
             ))}
           </Stepper>
         </Box>
-        <S.FormWrapper></S.FormWrapper>
+        <S.FormWrapper>
+          <button onClick={() => setActiveStep(activeStep + 1)}>Next</button>
+        </S.FormWrapper>
       </S.FormContainer>
     </S.Container>
   );
