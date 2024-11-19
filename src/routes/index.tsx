@@ -10,15 +10,16 @@ import GlobalStyle from '../styles';
 import ProductPage from '../pages/Products';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
+import HamburgerMenu from '../components/HamburgerMenu';
 
 function AppRoutes() {
   const location = useLocation();
-
+  console.log(window.innerWidth);
   return (
     <>
       <GlobalStyle />
       {location.pathname !== '/login' && location.pathname !== '/register' && (
-        <NavBar />
+        <>{window.innerWidth > 900 ? <NavBar /> : <HamburgerMenu />}</>
       )}
       <Routes>
         <Route path="/" element={<Home />} />

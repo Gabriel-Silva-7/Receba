@@ -13,11 +13,20 @@ export const Content = styled.div`
   justify-content: center;
   align-items: center;
   margin: 4rem;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+  }
 `;
 
 export const ImgLogo = styled.img`
   width: 473px;
   height: 457px;
+
+  @media (max-width: 900px) {
+    width: 200px;
+    height: 193px;
+  }
 `;
 
 export const ContentText = styled.div`
@@ -67,6 +76,14 @@ export const GridTitle = styled.h1`
   width: 100%;
   margin-top: 75px;
   font-size: 24px;
+
+  @media (max-width: 900px) {
+    margin-top: 0px;
+    text-align: center;
+    &:first-child {
+      margin-top: 20px;
+    }
+  }
 `;
 
 export const CentralDescription = styled.span`
@@ -102,6 +119,14 @@ export const GridDescription = styled.div`
   justify-content: center;
   width: 100%;
   align-items: center;
+
+  @media (max-width: 900px) {
+    display: flex;
+    padding: 0px;
+    flex-direction: column;
+    margin-top: 0px;
+    margin-bottom: 100px;
+  }
 `;
 
 export const GridItem = styled.div`
@@ -110,4 +135,8 @@ export const GridItem = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
+
+  @media (max-width: 900px) {
+    margin-top: 20px;
+  }
 `;
