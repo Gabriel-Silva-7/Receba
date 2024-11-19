@@ -42,13 +42,6 @@ const Home = () => {
               pacotes com conveniência, mesmo quando estão ausentes.
             </S.GridItemDescription>
           </S.GridItem>
-          {/* <S.GridItem>
-            <S.GridTitle>Integração com Tecnologia Exclusiva</S.GridTitle>
-            <S.GridItemDescription>
-              Lorem impsunb Lorem impsunb Lorem impsunb Lorem impsunb Lorem
-              impsunb Lorem impsunb.
-            </S.GridItemDescription>
-          </S.GridItem> */}
         </S.GridDescription>
       </S.ContentDescription>
     </S.Container>

@@ -1,24 +1,43 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from 'react-router-dom';
 import Home from '../pages/Home';
-import NavBar from '../NavBar';
+import NavBar from '../components/NavBar';
 import GlobalStyle from '../styles';
 import ProductPage from '../pages/Products';
+import Login from '../pages/Login';
+import Signup from '../pages/Signup';
 
 function AppRoutes() {
+  const location = useLocation();
+
   return (
-    <Router>
+    <>
       <GlobalStyle />
-      <NavBar />
+      {location.pathname !== '/login' && location.pathname !== '/register' && (
+        <NavBar />
+      )}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<div />} />
         <Route path="/contact" element={<div />} />
-        <Route path="/login" element={<div />} />
-        <Route path="/register" element={<div />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Signup />} />
         <Route path="/products" element={<ProductPage />} />
       </Routes>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppRoutes />
     </Router>
   );
 }
 
-export default AppRoutes;
+export default App;
