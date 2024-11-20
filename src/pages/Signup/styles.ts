@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -46,6 +47,10 @@ export const Description = styled.span`
   font-weight: 400;
   line-height: normal;
   width: 497px;
+
+  @media (max-width: 768px) {
+    width: 80%;
+  }
 `;
 
 export const FormWrapper = styled.div`
@@ -61,5 +66,37 @@ export const FormWrapper = styled.div`
 
   & + & {
     margin-top: 24px;
+  }
+
+  @media (max-width: 768px) {
+    width: 80%;
+  }
+`;
+
+export const DescriptionForm = styled.span`
+  color: #666;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+`;
+
+export const Required = styled.span`
+  color: #111;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
+export const StyledBoxStepper = styled(Box)`
+  width: 759px;
+  margin-top: 32px;
+  margin-bottom: 32px;
+
+  @media (max-width: 768px) {
+    width: 80%;
   }
 `;

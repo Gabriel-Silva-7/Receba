@@ -19,7 +19,7 @@ const HamburgerMenu: React.FC = () => {
   return (
     <Container>
       <MenuButton onClick={toggleMenu}>&#9776;</MenuButton>
-      <Logo>Receba!</Logo>
+      <Logo onClick={() => (window.location.href = '/')}>Receba!</Logo>
       <SingInSignUpWrapper>
         <SignInSingUpButton href="/login">Login</SignInSingUpButton>
         <SignInSingUpButton href="/register">Sign Up</SignInSingUpButton>

@@ -3,10 +3,17 @@ import * as S from './styles';
 // import logo from '../../assets/logo.png';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Box from '@mui/material/Box';
+import StepHeader from './Components/StepsHeader';
+import LoginInfo from './Components/LoginInfo';
+import { StepLabel } from '@mui/material';
+import BasicInfoForm from './Components/BasicInfoForm';
+import ResidenceInformation from './Components/ResidenceInformation';
 
-const steps = ['Basic info', 'Contact info', 'Login info'];
+const steps = [
+  'Informações de login',
+  'Informações Básicas',
+  'Informações de residência',
+];
 
 const Signup: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -17,6 +24,17 @@ const Signup: React.FC = () => {
 
   const handleBack = () => {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
+  };
+
+  const handleFormSubmit = (data: any) => {
+    console.log(data);
+    handleNext();
+  };
+
+  const storeLoginData = (data: any) => {
+    const encryptedData = btoa(JSON.stringify(data));
+    localStorage.setItem('loginData', encryptedData);
+    handleNext();
   };
 
   return (
@@ -32,11 +50,13 @@ const Signup: React.FC = () => {
       <S.FormContainer>
         <S.Title>Cadastre-se</S.Title>
         <S.Description>
-          There are many variations of passages of Lorem Ipsum available, but
-          the majority have suffered alteration in some form, by injected
-          humour, or randomised words which don't look even slightly believable.{' '}
+          Cadastre-se no Receba! e aproveite a conveniência de receber suas
+          encomendas a qualquer hora. Em parceria com condomínios, criamos
+          lockers onde os moradores podem receber suas entregas sem a
+          necessidade de estarem presentes ou depender de alguém para
+          recebê-las.
         </S.Description>
-        <Box sx={{ width: '759px', mt: 4, mb: 4 }}>
+        <S.StyledBoxStepper>
           <Stepper activeStep={activeStep} alternativeLabel>
             {steps.map((label, index) => (
               <Step key={label}>
@@ -67,35 +87,61 @@ const Signup: React.FC = () => {
               </Step>
             ))}
           </Stepper>
-        </Box>
-        {steps.map((label, index) => (
-          <S.FormWrapper
-            key={label}
-            style={{
-              height: activeStep === index ? '765px' : '100px',
-              overflow: 'hidden',
-              transition: 'height 0.3s ease',
-            }}
-          >
-            {activeStep === index ? (
-              <div>
-                <h2>{label}</h2>
-                <p>Form content for {label}</p>
-                <button
-                  onClick={handleNext}
-                  disabled={activeStep === steps.length - 1}
-                >
-                  Next
-                </button>
-                <button onClick={handleBack} disabled={activeStep === 0}>
-                  Back
-                </button>
-              </div>
-            ) : (
-              <h2>{label}</h2>
-            )}
-          </S.FormWrapper>
-        ))}
+        </S.StyledBoxStepper>
+        {steps.map((label, index) => {
+          const getStepContent = (stepIndex: number) => {
+            switch (stepIndex) {
+              case 0:
+                return <LoginInfo onSubmit={storeLoginData} />;
+              case 1:
+                return <BasicInfoForm onSubmit={handleFormSubmit} />;
+              case 2:
+                return <ResidenceInformation onSubmit={handleFormSubmit} />;
+              default:
+                return <div>Unknown step</div>;
+            }
+          };
+
+          return (
+            <S.FormWrapper
+              key={label}
+              style={{
+                height: activeStep === index ? '100%' : '80px',
+                overflow: 'hidden',
+                transition: 'height 0.3s ease',
+              }}
+            >
+              {activeStep === index ? (
+                <>
+                  <StepHeader
+                    label={label}
+                    index={index}
+                    activeStep={activeStep}
+                  />
+                  <S.DescriptionForm>
+                    {index === 0 &&
+                      'Por favor, preencha suas informações de login.'}
+                    {index === 1 &&
+                      'Por favor, preencha suas informações básicas.'}
+                    {index === 2 &&
+                      'As informações de residência estão vinculadas ao CPF ou CNPJ dos residentes dos apartamentos informados pelo condomínio. Caso o vínculo não seja confirmado, será necessária uma aprovação do condomínio ou do condômino (no e-mail informado pelo condomínio que estiver como morador ou proprietário).'}
+                  </S.DescriptionForm>
+                  <S.Required>
+                    * Todos os campos são obrigatórios, a menos que indicado de
+                    outra forma.
+                  </S.Required>
+                  {getStepContent(index)}
+                </>
+              ) : (
+                <StepHeader
+                  label={label}
+                  index={index}
+                  activeStep={activeStep}
+                />
+              )}
+            </S.FormWrapper>
+          );
+        })}
       </S.FormContainer>
     </S.Container>
   );
