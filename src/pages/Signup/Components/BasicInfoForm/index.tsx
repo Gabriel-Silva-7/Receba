@@ -18,6 +18,7 @@ const BasicInfoForm: React.FC<{ onSubmit: (data: any) => void }> = ({
     watch,
   } = useForm();
   const [isCnpj, setIsCnpj] = useState(false);
+  console.log(isCnpj);
   const watchIsCnpj = watch('isCnpj', false);
 
   return (

@@ -1,11 +1,5 @@
 import { useForm, Controller } from 'react-hook-form';
-import {
-  Form,
-  StyledTextField,
-  StyledButton,
-  StyledSelect,
-  StyledMenuItem,
-} from './styles';
+import { Form, StyledButton, StyledSelect, StyledMenuItem } from './styles';
 import React from 'react';
 
 const ResidenceInformation: React.FC<{ onSubmit: (data: any) => void }> = ({

@@ -22,9 +22,9 @@ const Signup: React.FC = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
 
-  const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
-  };
+  // const handleBack = () => {
+  //   setActiveStep(prevActiveStep => prevActiveStep - 1);
+  // };
 
   const handleFormSubmit = (data: any) => {
     console.log(data);
