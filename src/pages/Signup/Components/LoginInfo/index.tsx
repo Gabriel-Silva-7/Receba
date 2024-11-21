@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useForm, Controller, set } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { Form, StyledTextField, StyledButton } from './styles';
 import React, { useState } from 'react';
 import { API_URL } from '../../../../config/env';

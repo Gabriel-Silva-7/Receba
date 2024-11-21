@@ -6,7 +6,7 @@ import {
   StyledCheckbox,
   StyledFormControlLabel,
 } from './styles';
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '../../../../config/env';
 
@@ -23,6 +23,7 @@ const BasicInfoForm: React.FC<{
   } = useForm({ defaultValues: initialData });
 
   const [UserInfo, setUserInfo] = useState('');
+  console.log(UserInfo);
   const watchIsCnpj = watch('isCnpj', false);
 
   const verifyCpf = async (cpf: string) => {
