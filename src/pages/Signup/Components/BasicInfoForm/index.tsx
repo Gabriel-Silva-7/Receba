@@ -185,7 +185,99 @@ const BasicInfoForm: React.FC<{
           />
         )}
       />
+      {watch('useLandline') ? (
+        <Controller
+          name="landline"
+          control={control}
+          defaultValue=""
+          rules={{
+            required: 'Telefone fixo é obrigatório',
+            pattern: {
+              value: /^\(\d{2}\) \d{4}-\d{4}$/,
+              message: 'Formato de telefone fixo inválido',
+            },
+          }}
+          render={({ field }) => (
+            <InputMask
+              mask="(99) 9999-9999"
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+            >
+              {() => (
+                <StyledTextField
+                  {...field}
+                  inputRef={field.ref}
+                  label="Telefone Fixo *"
+                  variant="outlined"
+                  fullWidth
+                  error={!!errors.landline}
+                  helperText={
+                    errors.landline ? String(errors.landline.message) : ''
+                  }
+                />
+              )}
+            </InputMask>
+          )}
+        />
+      ) : (
+        <Controller
+          name="cellphone"
+          control={control}
+          defaultValue=""
+          rules={{
+            required: 'Celular é obrigatório',
+            pattern: {
+              value: /^\(\d{2}\) \d{5}-\d{4}$/,
+              message: 'Formato de celular inválido',
+            },
+          }}
+          render={({ field }) => (
+            <InputMask
+              mask="(99) 99999-9999"
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+            >
+              {() => (
+                <StyledTextField
+                  {...field}
+                  inputRef={field.ref}
+                  label="Celular *"
+                  variant="outlined"
+                  fullWidth
+                  error={!!errors.cellphone}
+                  helperText={
+                    errors.cellphone ? String(errors.cellphone.message) : ''
+                  }
+                />
+              )}
+            </InputMask>
+          )}
+        />
+      )}
+
       <Controller
+        name="useLandline"
+        control={control}
+        defaultValue={false}
+        render={({ field }) => (
+          <StyledFormControlLabel
+            control={
+              <StyledCheckbox
+                {...field}
+                checked={field.value}
+                onChange={e => {
+                  field.onChange(e.target.checked);
+                }}
+              />
+            }
+            label="Usar telefone fixo?"
+          />
+        )}
+      />
+
+      {/* <Controller
         name="cellphone"
         control={control}
         defaultValue=""
@@ -218,7 +310,7 @@ const BasicInfoForm: React.FC<{
             )}
           </InputMask>
         )}
-      />
+      /> */}
       {/* <Controller
         name="cellphone"
         control={control}
