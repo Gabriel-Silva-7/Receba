@@ -18,8 +18,10 @@ const LoginInfo: React.FC<{
 
   const checkEmailExists = async (email: string): Promise<boolean> => {
     try {
+      console.log('Checking email:', email);
       const response = await axios.post(`${API_URL}/verifyuser`, { email });
       setEmailExists(response.data.value);
+      console.log(response);
       return response.data.value;
     } catch (error) {
       console.error('Error verifying email:', error);
