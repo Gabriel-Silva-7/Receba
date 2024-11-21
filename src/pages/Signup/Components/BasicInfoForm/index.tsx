@@ -9,6 +9,7 @@ import {
 import React, { useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '../../../../config/env';
+import InputMask from 'react-input-mask';
 
 const BasicInfoForm: React.FC<{
   onSubmit: (data: any) => void;
@@ -70,6 +71,42 @@ const BasicInfoForm: React.FC<{
             value: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
             message: 'Formato de CPF inválido',
           },
+          validate: async value => {
+            const result = await verifyCpf(value);
+            return result ? true : 'CPF inválido';
+          },
+        }}
+        render={({ field }) => (
+          <InputMask
+            mask="999.999.999-99"
+            value={field.value}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+          >
+            {() => (
+              <StyledTextField
+                {...field}
+                inputRef={field.ref}
+                label="CPF *"
+                variant="outlined"
+                fullWidth
+                error={!!errors.cpf}
+                helperText={errors.cpf ? String(errors.cpf.message) : ''}
+              />
+            )}
+          </InputMask>
+        )}
+      />
+      {/* <Controller
+        name="cpf"
+        control={control}
+        defaultValue=""
+        rules={{
+          required: 'CPF é obrigatório',
+          pattern: {
+            value: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
+            message: 'Formato de CPF inválido',
+          },
         }}
         render={({ field }) => (
           <StyledTextField
@@ -82,7 +119,7 @@ const BasicInfoForm: React.FC<{
             onBlur={() => verifyCpf(watch('cpf'))}
           />
         )}
-      />
+      /> */}
       <Controller
         name="isCnpj"
         control={control}
@@ -148,8 +185,41 @@ const BasicInfoForm: React.FC<{
           />
         )}
       />
-
       <Controller
+        name="cellphone"
+        control={control}
+        defaultValue=""
+        rules={{
+          required: 'Celular é obrigatório',
+          pattern: {
+            value: /^\(\d{2}\) \d{5}-\d{4}$/,
+            message: 'Formato de celular inválido',
+          },
+        }}
+        render={({ field }) => (
+          <InputMask
+            mask="(99) 99999-9999"
+            value={field.value}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+          >
+            {() => (
+              <StyledTextField
+                {...field}
+                inputRef={field.ref}
+                label="Celular *"
+                variant="outlined"
+                fullWidth
+                error={!!errors.cellphone}
+                helperText={
+                  errors.cellphone ? String(errors.cellphone.message) : ''
+                }
+              />
+            )}
+          </InputMask>
+        )}
+      />
+      {/* <Controller
         name="cellphone"
         control={control}
         defaultValue=""
@@ -173,7 +243,7 @@ const BasicInfoForm: React.FC<{
             }
           />
         )}
-      />
+      /> */}
 
       <Controller
         name="terms"
