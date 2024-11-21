@@ -14,34 +14,36 @@ const StepHeader: React.FC<StepHeaderProps> = ({
   activeStep,
 }) => {
   return (
-    <h2>
-      <Step key={label}>
-        <StepLabel
-          StepIconComponent={() => (
-            <svg width="24" height="24">
-              <circle
-                cx="12"
-                cy="12"
-                r="12"
-                fill={index <= activeStep ? '#333333' : '#cccccc'}
-              />
-              <text
-                x="12"
-                y="16"
-                textAnchor="middle"
-                fill="white"
-                fontSize="12"
-                fontFamily="Arial"
-              >
-                {index + 1}
-              </text>
-            </svg>
-          )}
-        >
-          {label}
-        </StepLabel>
-      </Step>
-    </h2>
+    <>
+      <h2>
+        <Step key={label}>
+          <StepLabel
+            StepIconComponent={() => (
+              <svg width="24" height="24">
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="12"
+                  fill={index <= activeStep ? '#333333' : '#cccccc'}
+                />
+                <text
+                  x="12"
+                  y="16"
+                  textAnchor="middle"
+                  fill="white"
+                  fontSize="12"
+                  fontFamily="Arial"
+                >
+                  {index + 1}
+                </text>
+              </svg>
+            )}
+          >
+            {label}
+          </StepLabel>
+        </Step>
+      </h2>
+    </>
   );
 };
 

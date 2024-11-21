@@ -50,4 +50,8 @@ export const StyledButton = styled.button`
   @media (max-width: 768px) {
     opacity: 1;
   }
+
+  :disabled {
+    cursor: not-allowed;
+  }
 `;

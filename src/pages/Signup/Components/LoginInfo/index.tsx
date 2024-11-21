@@ -1,15 +1,31 @@
-import { useForm, Controller } from 'react-hook-form';
+import axios from 'axios';
+import { useForm, Controller, set } from 'react-hook-form';
 import { Form, StyledTextField, StyledButton } from './styles';
-import React from 'react';
+import React, { useState } from 'react';
+import { API_URL } from '../../../../config/env';
 
-const LoginInfo: React.FC<{ onSubmit: (data: any) => void }> = ({
-  onSubmit,
-}) => {
+const LoginInfo: React.FC<{
+  onSubmit: (data: any) => void;
+  initialData: any;
+}> = ({ onSubmit, initialData }) => {
   const {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm({ defaultValues: initialData });
+
+  const [emailExists, setEmailExists] = useState();
+
+  const checkEmailExists = async (email: string): Promise<boolean> => {
+    try {
+      const response = await axios.post(`${API_URL}/verifyuser`, { email });
+      setEmailExists(response.data.value);
+      return response.data.value;
+    } catch (error) {
+      console.error('Error verifying email:', error);
+      return false;
+    }
+  };
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -22,6 +38,10 @@ const LoginInfo: React.FC<{ onSubmit: (data: any) => void }> = ({
           pattern: {
             value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
             message: 'Endereço de email inválido',
+          },
+          validate: async value => {
+            const exists = await checkEmailExists(value);
+            return exists ? 'Email já existe' : true;
           },
         }}
         render={({ field }) => (
@@ -86,7 +106,7 @@ const LoginInfo: React.FC<{ onSubmit: (data: any) => void }> = ({
           />
         )}
       />
-      <StyledButton>Próximo</StyledButton>
+      <StyledButton disabled={emailExists}>Próximo</StyledButton>
     </Form>
   );
 };

@@ -6,20 +6,39 @@ import {
   StyledCheckbox,
   StyledFormControlLabel,
 } from './styles';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import axios from 'axios';
+import { API_URL } from '../../../../config/env';
 
-const BasicInfoForm: React.FC<{ onSubmit: (data: any) => void }> = ({
-  onSubmit,
-}) => {
+const BasicInfoForm: React.FC<{
+  onSubmit: (data: any) => void;
+  backStep: () => void;
+  initialData?: any;
+}> = ({ onSubmit, backStep, initialData }) => {
   const {
     handleSubmit,
     control,
     formState: { errors },
     watch,
-  } = useForm();
-  const [isCnpj, setIsCnpj] = useState(false);
-  console.log(isCnpj);
+  } = useForm({ defaultValues: initialData });
+
+  const [UserInfo, setUserInfo] = useState('');
   const watchIsCnpj = watch('isCnpj', false);
+
+  const verifyCpf = async (cpf: string) => {
+    try {
+      const unformattedCpf = cpf.replace(/[^\d]/g, '');
+      const response = await axios.post(`${API_URL}/verifyCpf`, {
+        cpf: unformattedCpf,
+      });
+      console.log(response);
+      setUserInfo(response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error verifying CPF:', error);
+      return null;
+    }
+  };
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -59,7 +78,7 @@ const BasicInfoForm: React.FC<{ onSubmit: (data: any) => void }> = ({
             variant="outlined"
             fullWidth
             error={!!errors.cpf}
-            helperText={errors.cpf ? String(errors.cpf.message) : ''}
+            onBlur={() => verifyCpf(watch('cpf'))}
           />
         )}
       />
@@ -75,7 +94,6 @@ const BasicInfoForm: React.FC<{ onSubmit: (data: any) => void }> = ({
                 checked={field.value}
                 onChange={e => {
                   field.onChange(e.target.checked);
-                  setIsCnpj(e.target.checked);
                 }}
               />
             }
@@ -174,8 +192,20 @@ const BasicInfoForm: React.FC<{ onSubmit: (data: any) => void }> = ({
           />
         )}
       />
-      {errors.terms && <p>{String(errors.terms.message)}</p>}
-      <StyledButton>Próximo</StyledButton>
+      {errors.terms && (
+        <p
+          style={{
+            color: '#d32f2f',
+            fontSize: '0.75rem',
+            marginTop: -24,
+            marginLeft: 14,
+          }}
+        >
+          {String(errors.terms.message)}
+        </p>
+      )}
+      <StyledButton type="submit">Próximo</StyledButton>
+      <StyledButton onClick={backStep}>Voltar</StyledButton>
     </Form>
   );
 };

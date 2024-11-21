@@ -17,23 +17,34 @@ const steps = [
 
 const Signup: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const [loginData, setLoginData] = useState<any>(null);
+  const [basicInfoData, setBasicInfoData] = useState<any>(null);
+  const [residenceInfoData, setResidenceInfoData] = useState<any>(null);
+
+  const storeResidenceInfoData = (data: any) => {
+    setResidenceInfoData(data);
+    handleNext();
+  };
+
+  const storeBasicInfoData = (data: any) => {
+    setBasicInfoData(data);
+    handleNext();
+  };
+
+  console.log(loginData);
+  console.log(basicInfoData);
+  console.log(residenceInfoData);
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
 
-  // const handleBack = () => {
-  //   setActiveStep(prevActiveStep => prevActiveStep - 1);
-  // };
-
-  const handleFormSubmit = (data: any) => {
-    console.log(data);
-    handleNext();
+  const handleBack = () => {
+    setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
   const storeLoginData = (data: any) => {
-    const encryptedData = btoa(JSON.stringify(data));
-    localStorage.setItem('loginData', encryptedData);
+    setLoginData(data);
     handleNext();
   };
 
@@ -92,11 +103,28 @@ const Signup: React.FC = () => {
           const getStepContent = (stepIndex: number) => {
             switch (stepIndex) {
               case 0:
-                return <LoginInfo onSubmit={storeLoginData} />;
+                return (
+                  <LoginInfo
+                    onSubmit={storeLoginData}
+                    initialData={loginData}
+                  />
+                );
               case 1:
-                return <BasicInfoForm onSubmit={handleFormSubmit} />;
+                return (
+                  <BasicInfoForm
+                    onSubmit={storeBasicInfoData}
+                    backStep={handleBack}
+                    initialData={basicInfoData}
+                  />
+                );
               case 2:
-                return <ResidenceInformation onSubmit={handleFormSubmit} />;
+                return (
+                  <ResidenceInformation
+                    onSubmit={storeResidenceInfoData}
+                    backStep={handleBack}
+                    initialData={residenceInfoData}
+                  />
+                );
               default:
                 return <div>Unknown step</div>;
             }

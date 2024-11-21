@@ -14,7 +14,7 @@ import HamburgerMenu from '../components/HamburgerMenu';
 
 function AppRoutes() {
   const location = useLocation();
-  console.log(window.innerWidth);
+
   return (
     <>
       <GlobalStyle />

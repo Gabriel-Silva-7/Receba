@@ -1,15 +1,23 @@
 import { useForm, Controller } from 'react-hook-form';
-import { Form, StyledButton, StyledSelect, StyledMenuItem } from './styles';
+import {
+  Form,
+  StyledButton,
+  StyledSelect,
+  StyledMenuItem,
+  StyledBackButton,
+} from './styles';
 import React from 'react';
 
-const ResidenceInformation: React.FC<{ onSubmit: (data: any) => void }> = ({
-  onSubmit,
-}) => {
+const ResidenceInformation: React.FC<{
+  onSubmit: (data: any) => void;
+  backStep: () => void;
+  initialData?: any;
+}> = ({ onSubmit, backStep, initialData }) => {
   const {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm({ defaultValues: initialData });
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -131,7 +139,8 @@ const ResidenceInformation: React.FC<{ onSubmit: (data: any) => void }> = ({
           {String(errors.apartment.message)}
         </span>
       )}
-      <StyledButton>Próximo</StyledButton>
+      <StyledButton type="submit">Próximo</StyledButton>
+      <StyledBackButton onClick={backStep}>Voltar</StyledBackButton>
     </Form>
   );
 };
