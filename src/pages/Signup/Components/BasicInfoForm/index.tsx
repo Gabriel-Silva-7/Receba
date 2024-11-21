@@ -152,6 +152,40 @@ const BasicInfoForm: React.FC<{
             },
           }}
           render={({ field }) => (
+            <InputMask
+              mask="99.999.999/9999-99"
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+            >
+              {() => (
+                <StyledTextField
+                  {...field}
+                  inputRef={field.ref}
+                  label="CNPJ *"
+                  variant="outlined"
+                  fullWidth
+                  error={!!errors.cnpj}
+                  helperText={errors.cnpj ? String(errors.cnpj.message) : ''}
+                />
+              )}
+            </InputMask>
+          )}
+        />
+      )}
+      {/* {watchIsCnpj && (
+        <Controller
+          name="cnpj"
+          control={control}
+          defaultValue=""
+          rules={{
+            required: 'CNPJ é obrigatório',
+            pattern: {
+              value: /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/,
+              message: 'Formato de CNPJ inválido',
+            },
+          }}
+          render={({ field }) => (
             <StyledTextField
               {...field}
               inputRef={field.ref}
@@ -184,7 +218,7 @@ const BasicInfoForm: React.FC<{
             }
           />
         )}
-      />
+      /> */}
       {watch('useLandline') ? (
         <Controller
           name="landline"
