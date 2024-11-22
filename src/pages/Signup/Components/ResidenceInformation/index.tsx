@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import {
   Form,
@@ -6,7 +7,13 @@ import {
   StyledMenuItem,
   StyledBackButton,
 } from './styles';
-import React from 'react';
+import {
+  Checkbox as MuiCheckbox,
+  ListItemText,
+  FormControl,
+  InputLabel,
+  FormControlLabel,
+} from '@mui/material';
 
 const ResidenceInformation: React.FC<{
   onSubmit: (data: any) => void;
@@ -17,128 +24,134 @@ const ResidenceInformation: React.FC<{
     handleSubmit,
     control,
     formState: { errors },
+    setValue,
   } = useForm({ defaultValues: initialData });
+
+  useEffect(() => {
+    if (initialData) {
+      const uniqueCondominiums = Array.from(
+        new Set(initialData.map((item: any) => item.NomeCondominio))
+      );
+      const uniqueBlocks = Array.from(
+        new Set(initialData.map((item: any) => item.Bloco))
+      );
+      const uniqueApartments = Array.from(
+        new Set(initialData.map((item: any) => item.Apartamento))
+      );
+
+      setValue('condominium', uniqueCondominiums);
+      setValue('block', uniqueBlocks);
+      setValue('apartment', uniqueApartments);
+    }
+  }, [initialData, setValue]);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Controller
         name="condominium"
         control={control}
-        defaultValue=""
-        rules={{ required: 'Condomínio é obrigatório' }}
+        defaultValue={[]}
         render={({ field }) => (
-          <>
+          <FormControl fullWidth>
+            <InputLabel>Condomínio</InputLabel>
             <StyledSelect
+              label="Condomínio"
               {...field}
-              inputRef={field.ref}
+              multiple
+              renderValue={value => (value as string[]).join(', ')}
               variant="outlined"
               fullWidth
-              error={!!errors.condominium}
-              displayEmpty
-              inputProps={{ 'aria-label': 'Without label' }}
+              disabled
             >
-              <StyledMenuItem value="" disabled>
-                Selecione o condomínio *
-              </StyledMenuItem>
-              <StyledMenuItem value="Condomínio A">Condomínio A</StyledMenuItem>
-              <StyledMenuItem value="Condomínio B">Condomínio B</StyledMenuItem>
-              <StyledMenuItem value="Condomínio C">Condomínio C</StyledMenuItem>
+              {Array.from(
+                new Set(initialData?.map((item: any) => item.NomeCondominio))
+              ).map((condominium: any) => (
+                <StyledMenuItem key={condominium} value={condominium}>
+                  <MuiCheckbox checked={field.value.includes(condominium)} />
+                  <ListItemText primary={condominium} />
+                </StyledMenuItem>
+              ))}
             </StyledSelect>
-          </>
+          </FormControl>
         )}
       />
-      {errors.condominium && (
-        <span
-          style={{
-            color: 'red',
-            marginTop: '-12px',
-            marginBottom: '-12px',
-            fontSize: '12px',
-          }}
-        >
-          {String(errors.condominium.message)}
-        </span>
-      )}
 
       <Controller
         name="block"
         control={control}
-        defaultValue=""
-        rules={{ required: 'Bloco é obrigatório' }}
+        defaultValue={[]}
         render={({ field }) => (
-          <StyledSelect
-            {...field}
-            inputRef={field.ref}
-            variant="outlined"
-            fullWidth
-            error={!!errors.block}
-            displayEmpty
-            MenuProps={{ disablePortal: true }}
-          >
-            <StyledMenuItem value="" disabled>
-              Selecione o bloco *
-            </StyledMenuItem>
-            <StyledMenuItem value="Bloco 1">Bloco 1</StyledMenuItem>
-            <StyledMenuItem value="Bloco 2">Bloco 2</StyledMenuItem>
-            <StyledMenuItem value="Bloco 3">Bloco 3</StyledMenuItem>
-          </StyledSelect>
+          <FormControl fullWidth>
+            <InputLabel>Bloco</InputLabel>
+            <StyledSelect
+              label="Bloco"
+              {...field}
+              multiple
+              renderValue={value => (value as string[]).join(', ')}
+              variant="outlined"
+              fullWidth
+              disabled
+            >
+              {Array.from(
+                new Set(initialData?.map((item: any) => item.Bloco))
+              ).map((block: any) => (
+                <StyledMenuItem key={block} value={block}>
+                  <MuiCheckbox checked={field.value.includes(block)} />
+                  <ListItemText primary={block} />
+                </StyledMenuItem>
+              ))}
+            </StyledSelect>
+          </FormControl>
         )}
       />
-      {errors.block && (
-        <span
-          style={{
-            color: 'red',
-            marginTop: '-12px',
-            marginBottom: '-12px',
-            fontSize: '12px',
-          }}
-        >
-          {String(errors.block.message)}
-        </span>
-      )}
 
       <Controller
         name="apartment"
         control={control}
-        defaultValue=""
-        rules={{ required: 'Apartamento é obrigatório' }}
+        defaultValue={[]}
         render={({ field }) => (
-          <StyledSelect
-            {...field}
-            inputRef={field.ref}
-            variant="outlined"
-            fullWidth
-            error={!!errors.apartment}
-            displayEmpty
-            MenuProps={{ disablePortal: true }}
-          >
-            <StyledMenuItem value="" disabled>
-              Selecione o apartamento *
-            </StyledMenuItem>
-            <StyledMenuItem value="Apartamento 101">
-              Apartamento 101
-            </StyledMenuItem>
-            <StyledMenuItem value="Apartamento 102">
-              Apartamento 102
-            </StyledMenuItem>
-            <StyledMenuItem value="Apartamento 103">
-              Apartamento 103
-            </StyledMenuItem>
-          </StyledSelect>
+          <FormControl fullWidth>
+            <InputLabel>Apartamento</InputLabel>
+            <StyledSelect
+              label="Apartamento"
+              {...field}
+              multiple
+              renderValue={value => (value as string[]).join(', ')}
+              variant="outlined"
+              fullWidth
+              disabled
+            >
+              {Array.from(
+                new Set(initialData?.map((item: any) => item.Apartamento))
+              ).map((apartment: any) => (
+                <StyledMenuItem key={apartment} value={apartment}>
+                  <MuiCheckbox checked={field.value.includes(apartment)} />
+                  <ListItemText primary={apartment} />
+                </StyledMenuItem>
+              ))}
+            </StyledSelect>
+          </FormControl>
         )}
       />
-      {errors.apartment && (
-        <span
-          style={{
-            color: 'red',
-            marginTop: '-12px',
-            marginBottom: '-12px',
-            fontSize: '12px',
-          }}
-        >
-          {String(errors.apartment.message)}
+
+      <Controller
+        name="confirmation"
+        control={control}
+        defaultValue={false}
+        rules={{ required: 'Confirmação é obrigatória' }}
+        render={({ field }) => (
+          <FormControlLabel
+            control={<MuiCheckbox {...field} checked={field.value} />}
+            label="Confirmo que as informações estão corretas"
+          />
+        )}
+      />
+      {errors.confirmation && (
+        <span style={{ color: 'red', fontSize: '12px' }}>
+          {String(errors.confirmation.message)}
         </span>
       )}
+
       <StyledButton type="submit">Próximo</StyledButton>
       <StyledBackButton onClick={backStep}>Voltar</StyledBackButton>
     </Form>

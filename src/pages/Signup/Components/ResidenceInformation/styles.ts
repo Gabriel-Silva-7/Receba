@@ -96,8 +96,6 @@ export const StyledSelect = styled(Select)`
     &:hover .MuiOutlinedInput-notchedOutline {
       border-color: rgba(102, 102, 102, 0.35);
     }
-    & .MuiOutlinedInput-notchedOutline {
-    }
   }
   & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
     border-color: rgba(102, 102, 102, 0.35);
@@ -108,7 +106,7 @@ export const StyledSelect = styled(Select)`
 `;
 
 export const StyledInputLabel = styled(InputLabel)`
-  margin-top: 16px;
+  margin-bottom: 16px;
   &.Mui-focused {
     color: rgba(102, 102, 102, 0.35);
   }

@@ -8,6 +8,8 @@ import LoginInfo from './Components/LoginInfo';
 import { StepLabel } from '@mui/material';
 import BasicInfoForm from './Components/BasicInfoForm';
 import ResidenceInformation from './Components/ResidenceInformation';
+import axios from 'axios';
+import { API_URL } from '../../config/env';
 
 const steps = [
   'Informações de login',
@@ -19,21 +21,25 @@ const Signup: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [loginData, setLoginData] = useState<any>(null);
   const [basicInfoData, setBasicInfoData] = useState<any>(null);
-  const [residenceInfoData, setResidenceInfoData] = useState<any>(null);
+  const [UserInfo, setUserInfo] = useState('');
 
-  const storeResidenceInfoData = (data: any) => {
-    setResidenceInfoData(data);
-    handleNext();
+  const createUser = (data: any) => {
+    axios
+      .post(`${API_URL}/createuser`, {
+        loginData,
+        basicInfoData,
+        UserInfo,
+        data,
+      })
+      .catch(error => {
+        console.error('Error creating user:', error);
+      });
   };
 
   const storeBasicInfoData = (data: any) => {
     setBasicInfoData(data);
     handleNext();
   };
-
-  console.log(loginData);
-  console.log(basicInfoData);
-  console.log(residenceInfoData);
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -115,14 +121,16 @@ const Signup: React.FC = () => {
                     onSubmit={storeBasicInfoData}
                     backStep={handleBack}
                     initialData={basicInfoData}
+                    setUserInfo={setUserInfo}
+                    userInfo={UserInfo}
                   />
                 );
               case 2:
                 return (
                   <ResidenceInformation
-                    onSubmit={storeResidenceInfoData}
+                    onSubmit={createUser}
                     backStep={handleBack}
-                    initialData={residenceInfoData}
+                    initialData={UserInfo}
                   />
                 );
               default:
@@ -152,7 +160,7 @@ const Signup: React.FC = () => {
                     {index === 1 &&
                       'Por favor, preencha suas informações básicas.'}
                     {index === 2 &&
-                      'As informações de residência estão vinculadas ao CPF ou CNPJ dos residentes dos apartamentos informados pelo condomínio. Caso o vínculo não seja confirmado, será necessária uma aprovação do condomínio ou do condômino (no e-mail informado pelo condomínio que estiver como morador ou proprietário).'}
+                      'As informações de residência estão vinculadas ao CPF ou CNPJ dos residentes dos apartamentos informados pelo condomínio.'}
                   </S.DescriptionForm>
                   <S.Required>
                     * Todos os campos são obrigatórios, a menos que indicado de
