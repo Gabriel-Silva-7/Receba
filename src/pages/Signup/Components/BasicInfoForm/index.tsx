@@ -101,7 +101,7 @@ const BasicInfoForm: React.FC<{
             const result = await verifyCpf(value);
             return result?.value
               ? true
-              : 'Não foi possível encontrar uma unidade vinculada ao seu CNPJ ou CPF, verifique seus dados ou entre em contato com o sindico do seu condomínio.';
+              : 'Não foi possível encontrar uma unidade vinculada ao seu CNPJ ou CPF. Por favor, verifique seus dados ou entre em contato com o síndico do seu condomínio.';
           },
         }}
         render={({ field }) => (
