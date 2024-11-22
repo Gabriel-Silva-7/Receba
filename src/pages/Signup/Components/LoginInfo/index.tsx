@@ -22,7 +22,6 @@ const LoginInfo: React.FC<{
       setEmailExists(response.data.value);
       return response.data.value;
     } catch (error) {
-      console.error('Error verifying email:', error);
       return false;
     }
   };

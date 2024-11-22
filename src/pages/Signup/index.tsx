@@ -5,11 +5,16 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepHeader from './Components/StepsHeader';
 import LoginInfo from './Components/LoginInfo';
-import { StepLabel } from '@mui/material';
+import { CircularProgress, StepLabel } from '@mui/material';
 import BasicInfoForm from './Components/BasicInfoForm';
 import ResidenceInformation from './Components/ResidenceInformation';
 import axios from 'axios';
 import { API_URL } from '../../config/env';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CloseIcon from '@mui/icons-material/Close';
+import ErrorIcon from '@mui/icons-material/Error';
 
 const steps = [
   'Informações de login',
@@ -17,13 +22,42 @@ const steps = [
   'Informações de residência',
 ];
 
+const modalStyle = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: `${window.innerWidth > 768 ? '45%' : '90%'}`,
+  height: '25%',
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: `${window.innerWidth > 768 ? 4 : 3}`,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+  borderRadius: '16px',
+};
+
 const Signup: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [loginData, setLoginData] = useState<any>(null);
   const [basicInfoData, setBasicInfoData] = useState<any>(null);
   const [UserInfo, setUserInfo] = useState('');
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+    window.location.href = '/login';
+  };
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const createUser = (data: any) => {
+    if (isLoading) return;
+
+    setIsLoading(true);
     axios
       .post(`${API_URL}/createuser`, {
         loginData,
@@ -31,8 +65,27 @@ const Signup: React.FC = () => {
         UserInfo,
         data,
       })
+      .then(response => {
+        console.log(response);
+        if (response.status === 201) {
+          setOpen(true);
+          setTimeout(() => {
+            handleClose();
+          }, 15000);
+        }
+      })
       .catch(error => {
+        if (error.response && error.response.status === 409) {
+          setErrorMessage('Já existe uma conta associada a esse CPF.');
+        } else {
+          setErrorMessage(
+            'Ocorreu um erro ao criar o usuário. Tente novamente.'
+          );
+        }
         console.error('Error creating user:', error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -56,6 +109,11 @@ const Signup: React.FC = () => {
 
   return (
     <S.Container>
+      {isLoading && (
+        <S.LoadingOverlay>
+          <CircularProgress />
+        </S.LoadingOverlay>
+      )}
       <S.HeaderNav>
         <h3
           onClick={() => (window.location.href = '/')}
@@ -179,6 +237,58 @@ const Signup: React.FC = () => {
           );
         })}
       </S.FormContainer>
+      <Modal open={open} onClose={handleClose}>
+        <Box sx={{ ...modalStyle }}>
+          <Box
+            position="absolute"
+            top={0}
+            right={0}
+            p={1}
+            sx={{ cursor: 'pointer' }}
+            onClick={handleClose}
+          >
+            <CloseIcon />
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flexDirection="column"
+          >
+            <CheckCircleIcon
+              style={{ color: 'green', fontSize: 50, marginBottom: 10 }}
+            />
+            <h2>Usuário criado com sucesso!</h2>
+            <p>Você será redirecionado para a página de login.</p>
+          </Box>
+        </Box>
+      </Modal>
+      <Modal open={!!errorMessage} onClose={() => setErrorMessage(null)}>
+        <Box sx={{ ...modalStyle }}>
+          <Box
+            position="absolute"
+            top={0}
+            right={0}
+            p={1}
+            sx={{ cursor: 'pointer' }}
+            onClick={() => setErrorMessage(null)}
+          >
+            <CloseIcon />
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flexDirection="column"
+          >
+            <ErrorIcon
+              style={{ color: 'red', fontSize: 50, marginBottom: 10 }}
+            />
+            <h2>Erro ao criar usuário</h2>
+            <p>{errorMessage}</p>
+          </Box>
+        </Box>
+      </Modal>
     </S.Container>
   );
 };
