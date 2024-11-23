@@ -52,6 +52,10 @@ export const SingInSignUpWrapper = styled.div`
   display: flex;
   gap: 10px;
   flex-direction: row;
+
+  @media (max-width: 374px) {
+    flex-direction: column;
+  }
 `;
 
 export const SignInSingUpButton = styled.a`

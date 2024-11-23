@@ -5,29 +5,21 @@ import arrow from '../../assets/arrow.svg';
 import hide from '../../assets/hide.svg';
 import { API_URL } from '../../config/env';
 import { api } from '../../config/api';
+import { useAuth } from '../../context/AuthContext';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const { login } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const response = await api.post(`${API_URL}/login`, { email, password });
-    console.log(response.data.token);
-    localStorage.setItem('token', response.data.token);
-    navigate('/dashboard');
+    login(response.data.token);
+    navigate('/');
   };
-
-  React.useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      console.log('Token:', token);
-    } else {
-      console.log('No token found');
-    }
-  }, []);
 
   return (
     <S.LoginContainer>
@@ -76,19 +68,7 @@ const Login: React.FC = () => {
         </S.FormGroup>
         <S.FormGroup>
           <S.CheckboxContainer>
-            <S.Checkbox
-              type="checkbox"
-              id="rememberMe"
-              onChange={e => {
-                if (e.target.checked) {
-                  localStorage.setItem('email', email);
-                  localStorage.setItem('password', password);
-                } else {
-                  localStorage.removeItem('email');
-                  localStorage.removeItem('password');
-                }
-              }}
-            />
+            <S.Checkbox type="checkbox" id="rememberMe" />
             <S.Label htmlFor="rememberMe">Remember me</S.Label>
           </S.CheckboxContainer>
         </S.FormGroup>

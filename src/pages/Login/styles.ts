@@ -5,6 +5,7 @@ export const LoginContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  height: 100vh;
   justify-content: center;
   background: #fff;
 `;
@@ -14,7 +15,7 @@ export const Form = styled.form`
   flex-direction: column;
   width: 580px;
   margin-top: 7%;
-  height: 80vh;
+  height: 100%;
 
   @media (max-width: 768px) {
     width: 90%;

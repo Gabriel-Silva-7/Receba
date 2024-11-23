@@ -18,22 +18,46 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem('token')
   );
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
+  const initialAuthState = () => {
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        if (decodedToken.exp) {
+          const expirationDate = new Date(decodedToken.exp * 1000);
+          if (expirationDate <= new Date()) {
+            logout();
+            return false;
+          }
+        }
+        return true;
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
+    } else {
+      return false;
+    }
+  };
+
+  const [isAuthenticated, setIsAuthenticated] =
+    useState<boolean>(initialAuthState);
 
   useEffect(() => {
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
-        console.log(decodedToken);
         if (decodedToken.exp) {
-          console.log('Token expira em:', new Date(decodedToken.exp * 1000));
-        } else {
-          console.error('Token expiration date is missing');
+          const expirationDate = new Date(decodedToken.exp * 1000);
+          if (expirationDate <= new Date()) {
+            logout();
+          }
         }
         setIsAuthenticated(true);
+        console.log('useEffect', token);
       } catch (error) {
-        console.error('Invalid token:', error);
         setIsAuthenticated(false);
+        console.log('useEffect', error);
       }
     } else {
       setIsAuthenticated(false);

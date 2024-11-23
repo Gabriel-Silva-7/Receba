@@ -6,8 +6,10 @@ import {
   NavList,
   Profile,
 } from './styles';
+import { useAuth } from '../../context/AuthContext';
 
 function NavBar() {
+  const { isAuthenticated } = useAuth();
   return (
     <NavBarContainer>
       <h3>Receba!</h3>
@@ -21,26 +23,31 @@ function NavBar() {
           <NavLink to="/products">Produtos</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink to="/partners">Parceiros</NavLink>
+          <NavLink to="/about">Sobre</NavLink>
         </NavItem>
         <NavItem>
           <NavLink to="/help">Ajuda</NavLink>
         </NavItem>
-        <NavItem>
-          <NavLink to="/about">Sobre</NavLink>
-        </NavItem>
       </NavList>
       <Profile>
-        <ButtonWithoutBackground
-          onClick={() => (window.location.href = '/login')}
-        >
-          Entrar
-        </ButtonWithoutBackground>
-        <ButtonWithoutBackground
-          onClick={() => (window.location.href = '/register')}
-        >
-          Cadastro
-        </ButtonWithoutBackground>
+        {isAuthenticated ? (
+          <ButtonWithoutBackground onClick={() => (window.location.href = '/')}>
+            Minhas Encomendas
+          </ButtonWithoutBackground>
+        ) : (
+          <>
+            <ButtonWithoutBackground
+              onClick={() => (window.location.href = '/login')}
+            >
+              Entrar
+            </ButtonWithoutBackground>
+            <ButtonWithoutBackground
+              onClick={() => (window.location.href = '/register')}
+            >
+              Cadastro
+            </ButtonWithoutBackground>
+          </>
+        )}
       </Profile>
     </NavBarContainer>
   );

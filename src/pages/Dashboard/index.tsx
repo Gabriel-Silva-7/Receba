@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { api } from '../../config/api';
+import * as S from './styles';
 
 const Dashboard = () => {
   useEffect(() => {
@@ -25,21 +26,9 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        height: '100vh',
-      }}
-    >
-      <h3>DENIIIIIIIIIIIIIIS DJ</h3>
-      <img
-        src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif"
-        alt="Cat gif"
-      />
-    </div>
+    <S.Container>
+      <h1>Dashboard</h1>
+    </S.Container>
   );
 };
 
