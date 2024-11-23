@@ -57,7 +57,7 @@ export const Button = styled.button`
   display: flex;
   width: 580px;
   height: 64px;
-  padding: 15px 0px 16px 0px;
+  padding: 14px 0px 14px 0px;
   justify-content: center;
   align-items: center;
   border-radius: 32px;
@@ -70,6 +70,7 @@ export const Button = styled.button`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  border: none;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -126,4 +127,66 @@ export const Divider = styled.div`
   height: 1px;
   width: 100%;
   background: rgba(102, 102, 102, 0.25);
+`;
+
+export const CheckboxContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const Checkbox = styled.input`
+  margin-right: 8px;
+  accent-color: black;
+`;
+
+export const TermsAndConditions = styled.span`
+  color: #333;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-bottom: 8px;
+  text-align: center;
+
+  a {
+    color: #111;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: none;
+    text-decoration-thickness: auto;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+  }
+`;
+
+export const LinkSignUp = styled.span`
+  color: #666;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: center;
+  margin-top: 26px;
+
+  a {
+    color: #111;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: none;
+    text-decoration-thickness: auto;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+  }
 `;

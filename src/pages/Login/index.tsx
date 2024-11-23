@@ -63,7 +63,40 @@ const Login: React.FC = () => {
             required
           />
         </S.FormGroup>
+        <S.FormGroup>
+          <S.CheckboxContainer>
+            <S.Checkbox
+              type="checkbox"
+              id="rememberMe"
+              onChange={e => {
+                if (e.target.checked) {
+                  localStorage.setItem('email', email);
+                  localStorage.setItem('password', password);
+                } else {
+                  localStorage.removeItem('email');
+                  localStorage.removeItem('password');
+                }
+              }}
+            />
+            <S.Label htmlFor="rememberMe">Remember me</S.Label>
+          </S.CheckboxContainer>
+        </S.FormGroup>
+        <S.TermsAndConditions>
+          By continuing, you agree to the{' '}
+          <a href="/terms-of-use" target="_blank" rel="noopener noreferrer">
+            Terms of use
+          </a>{' '}
+          and{' '}
+          <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">
+            Privacy Policy
+          </a>
+          .
+        </S.TermsAndConditions>
         <S.Button type="submit">Log in</S.Button>
+        <S.LinkSignUp>
+          Don’t have an account?{' '}
+          <a onClick={() => navigate('/register')}>Sign up</a>
+        </S.LinkSignUp>
       </S.Form>
     </S.LoginContainer>
   );
