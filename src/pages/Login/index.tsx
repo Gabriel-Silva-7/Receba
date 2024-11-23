@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as S from './styles';
+import arrow from '../../assets/arrow.svg';
+import hide from '../../assets/hide.svg';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,8 +20,20 @@ const Login: React.FC = () => {
 
   return (
     <S.LoginContainer>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+      <S.HeaderNav>
+        <S.BackArrow onClick={() => navigate('/')}>
+          <img src={arrow} />
+        </S.BackArrow>
+        <h3
+          onClick={() => (window.location.href = '/')}
+          style={{ cursor: 'pointer' }}
+        >
+          Receba!
+        </h3>
+      </S.HeaderNav>
+      <S.Divider />
+      <S.Form onSubmit={handleLogin}>
+        <S.Title>Log in</S.Title>
         <S.FormGroup>
           <S.Label htmlFor="email">Email:</S.Label>
           <S.Input
@@ -30,17 +45,26 @@ const Login: React.FC = () => {
           />
         </S.FormGroup>
         <S.FormGroup>
-          <S.Label htmlFor="password">Password:</S.Label>
+          <S.LabelContainer>
+            <S.Label htmlFor="password">Password:</S.Label>
+            <S.ToggleButton
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              <img src={hide} />
+              {showPassword ? 'Hide' : 'Show'}
+            </S.ToggleButton>
+          </S.LabelContainer>
           <S.Input
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             id="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
           />
         </S.FormGroup>
-        <S.Button type="submit">Login</S.Button>
-      </form>
+        <S.Button type="submit">Log in</S.Button>
+      </S.Form>
     </S.LoginContainer>
   );
 };

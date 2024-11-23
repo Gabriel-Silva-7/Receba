@@ -36,7 +36,6 @@ const BasicInfoForm: React.FC<{
       setUserInfo(response.data.response);
       return response.data;
     } catch (error) {
-      console.error('Error verifying CPF:', error);
       return null;
     }
   };

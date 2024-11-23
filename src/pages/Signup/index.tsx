@@ -66,8 +66,7 @@ const Signup: React.FC = () => {
         data,
       })
       .then(response => {
-        console.log(response);
-        if (response.status === 201) {
+        if (response?.status === 201) {
           setOpen(true);
           setTimeout(() => {
             handleClose();
@@ -75,14 +74,13 @@ const Signup: React.FC = () => {
         }
       })
       .catch(error => {
-        if (error.response && error.response.status === 409) {
+        if (error?.response && error?.response?.status === 409) {
           setErrorMessage('Já existe uma conta associada a esse CPF.');
         } else {
           setErrorMessage(
             'Ocorreu um erro ao criar o usuário. Tente novamente.'
           );
         }
-        console.error('Error creating user:', error);
       })
       .finally(() => {
         setIsLoading(false);
