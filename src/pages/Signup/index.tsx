@@ -8,13 +8,13 @@ import LoginInfo from './Components/LoginInfo';
 import { CircularProgress, StepLabel } from '@mui/material';
 import BasicInfoForm from './Components/BasicInfoForm';
 import ResidenceInformation from './Components/ResidenceInformation';
-import axios from 'axios';
 import { API_URL } from '../../config/env';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import ErrorIcon from '@mui/icons-material/Error';
+import { api } from '../../config/api';
 
 const steps = [
   'Informações de login',
@@ -58,7 +58,7 @@ const Signup: React.FC = () => {
     if (isLoading) return;
 
     setIsLoading(true);
-    axios
+    api
       .post(`${API_URL}/createuser`, {
         loginData,
         basicInfoData,

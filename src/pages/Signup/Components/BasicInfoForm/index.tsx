@@ -7,9 +7,9 @@ import {
   StyledFormControlLabel,
 } from './styles';
 import React from 'react';
-import axios from 'axios';
 import { API_URL } from '../../../../config/env';
 import InputMask from 'react-input-mask';
+import { api } from '../../../../config/api';
 
 const BasicInfoForm: React.FC<{
   onSubmit: (data: any) => void;
@@ -30,7 +30,7 @@ const BasicInfoForm: React.FC<{
   const verifyCpf = async (cpf: string) => {
     try {
       const unformattedCpf = cpf.replace(/[^\d]/g, '');
-      const response = await axios.post(`${API_URL}/verifyCpf`, {
+      const response = await api.post(`${API_URL}/verifyCpf`, {
         cpf: unformattedCpf,
       });
       setUserInfo(response.data.response);

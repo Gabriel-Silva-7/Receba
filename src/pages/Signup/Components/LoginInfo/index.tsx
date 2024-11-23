@@ -3,6 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { Form, StyledTextField, StyledButton } from './styles';
 import React, { useState } from 'react';
 import { API_URL } from '../../../../config/env';
+import { api } from '../../../../config/api';
 
 const LoginInfo: React.FC<{
   onSubmit: (data: any) => void;
@@ -18,7 +19,7 @@ const LoginInfo: React.FC<{
 
   const checkEmailExists = async (email: string): Promise<boolean> => {
     try {
-      const response = await axios.post(`${API_URL}/verifyuser`, { email });
+      const response = await api.post(`${API_URL}/verifyuser`, { email });
       setEmailExists(response.data.value);
       return response.data.value;
     } catch (error) {

@@ -180,6 +180,7 @@ export const LinkSignUp = styled.span`
   margin-top: 26px;
 
   a {
+    cursor: pointer;
     color: #111;
     font-family: Poppins;
     font-size: 16px;

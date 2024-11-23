@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import * as S from './styles';
 import arrow from '../../assets/arrow.svg';
 import hide from '../../assets/hide.svg';
+import { API_URL } from '../../config/env';
+import { api } from '../../config/api';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -10,13 +12,22 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Add your login logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
-    navigate('/dashboard'); // Redirect to dashboard after login
+    const response = await api.post(`${API_URL}/login`, { email, password });
+    console.log(response.data.token);
+    localStorage.setItem('token', response.data.token);
+    navigate('/dashboard');
   };
+
+  React.useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      console.log('Token:', token);
+    } else {
+      console.log('No token found');
+    }
+  }, []);
 
   return (
     <S.LoginContainer>

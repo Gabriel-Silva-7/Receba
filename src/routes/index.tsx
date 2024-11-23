@@ -11,10 +11,10 @@ import ProductPage from '../pages/Products';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import HamburgerMenu from '../components/HamburgerMenu';
+import Dashboard from '../pages/Dashboard';
 
 function AppRoutes() {
   const location = useLocation();
-
   return (
     <>
       <GlobalStyle />
@@ -28,6 +28,7 @@ function AppRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Signup />} />
         <Route path="/products" element={<ProductPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </>
   );
