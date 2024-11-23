@@ -72,6 +72,10 @@ export const Button = styled.button`
   line-height: normal;
   border: none;
 
+  &:hover {
+    opacity: 1;
+  }
+
   @media (max-width: 768px) {
     width: 100%;
   }
