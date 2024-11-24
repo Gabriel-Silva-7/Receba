@@ -5,7 +5,6 @@ interface LateralMenuProps {
   isOpen: boolean;
   setMenuIsOpen: (isOpen: boolean) => void;
 }
-import closeButton from '../../assets/closeIcon.png';
 import * as S from './styles';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -25,7 +24,7 @@ const LateralMenu: React.FC<LateralMenuProps> = ({ isOpen, setMenuIsOpen }) => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const [userHasImage, setUserHasImage] = React.useState(false);
+  const [userHasImage] = React.useState(false);
   const checkIsSelected = (path: string) => {
     return location.pathname === path;
   };

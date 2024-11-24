@@ -23,9 +23,9 @@ function AppRoutes() {
   const [loggedIn, setLoggedIn] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
-  // useEffect(() => {
-  //   setLoggedIn(isAuthenticated);
-  // }, [isAuthenticated]);
+  useEffect(() => {
+    setLoggedIn(isAuthenticated);
+  }, [isAuthenticated]);
 
   return (
     <>

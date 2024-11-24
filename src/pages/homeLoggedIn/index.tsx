@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { api } from '../../config/api';
+import { useState } from 'react';
+// import { api } from '../../config/api';
 import * as S from './styles';
 import fotoTeste from '../../assets/fototeste.svg';
 import ClosedBox from '../../assets/ClosedBox.png';
@@ -8,10 +8,10 @@ import HelpImg from '../../assets/helpImg.png';
 import { useNavigate } from 'react-router-dom';
 
 const HomeLoggedIn = () => {
-  const [userHasImage, setUserHasImage] = useState(true);
-  const [userName, setUserName] = useState('Amanda');
-  const [lockerNumber, setLockerNumber] = useState(1);
-  const [lockerDate, setLockerDate] = useState('10/10/2021 ás 12:00');
+  const [userHasImage] = useState(true);
+  const [userName] = useState('Amanda');
+  const [lockerNumber] = useState(1);
+  const [lockerDate] = useState('10/10/2021 ás 12:00');
   const navigate = useNavigate();
 
   // useEffect(() => {
