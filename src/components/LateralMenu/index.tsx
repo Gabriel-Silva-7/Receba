@@ -51,12 +51,12 @@ const LateralMenu: React.FC<LateralMenuProps> = ({ isOpen, setMenuIsOpen }) => {
           Home
         </S.MenuItem>
         <S.MenuItem
-          isSelected={checkIsSelected('/orders')}
-          onClick={() => navigate('/orders')}
+          isSelected={checkIsSelected('/mypackages')}
+          onClick={() => navigate('/mypackages')}
         >
           <S.Icon
             icon={faBoxesStacked}
-            isSelected={checkIsSelected('/orders')}
+            isSelected={checkIsSelected('/mypackages')}
           />
           Encomendas
         </S.MenuItem>

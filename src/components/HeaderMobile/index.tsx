@@ -15,7 +15,6 @@ const MenuButton = styled.button`
   border: none;
   font-size: 24px;
   cursor: pointer;
-  margin-left: 20px;
 
   img {
     width: 24px;

@@ -11,13 +11,17 @@ export const MenuContainer = styled.div<{ isOpen: boolean }>`
   transition: left 0.3s ease;
   border-radius: 0px 24px 24px 0px;
   z-index: 10;
+
+  @media (min-width: 900px) {
+    width: 14%;
+  }
 `;
 
 export const MenuHeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 24px;
   margin-bottom: 58px;
   padding: 20px;
 `;
@@ -45,6 +49,9 @@ export const CloseButton = styled.button`
   border: none;
   font-size: 24px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const Title = styled.span`
@@ -68,6 +75,11 @@ export const MenuItem = styled.div<{ isSelected: boolean }>`
   border-radius: 14px;
   background: ${({ isSelected }) => (isSelected ? '#333' : '#fff')};
   color: ${({ isSelected }) => (isSelected ? '#fff' : '#000')};
+
+  svg {
+    width: 18px;
+    height: 16px;
+  }
 `;
 
 export const Icon = styled(FontAwesomeIcon)<{ isSelected: boolean }>`

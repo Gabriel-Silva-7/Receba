@@ -3,6 +3,8 @@ import {
   Routes,
   Route,
   useLocation,
+  useNavigate,
+  Navigate,
 } from 'react-router-dom';
 import Home from '../pages/Home';
 import NavBar from '../components/NavBar';
@@ -16,11 +18,14 @@ import { useAuth } from '../context/AuthContext';
 import { useEffect, useState } from 'react';
 import LateralMenu from '../components/LateralMenu';
 import HeaderMobile from '../components/HeaderMobile';
+import MyPackages from '../pages/Packages';
+import PackageDetails from '../pages/PackageDetails';
 
 function AppRoutes() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -35,17 +40,21 @@ function AppRoutes() {
         !loggedIn && (
           <>{window.innerWidth > 900 ? <NavBar /> : <HamburgerMenu />}</>
         )}
-      {loggedIn && window.innerWidth < 900 && (
-        <>
-          <HeaderMobile setMenuIsOpen={setIsOpen} isOpen={isOpen} />
-          <LateralMenu setMenuIsOpen={setIsOpen} isOpen={isOpen} />
-        </>
-      )}
+      {loggedIn &&
+        location.pathname !== '/mypackages' &&
+        location.pathname !== '/packagedetails' && (
+          <>
+            <HeaderMobile setMenuIsOpen={setIsOpen} isOpen={isOpen} />
+            <LateralMenu setMenuIsOpen={setIsOpen} isOpen={isOpen} />
+          </>
+        )}
       <Routes>
         {loggedIn ? (
           <>
             <Route path="/" element={<HomeLogged />} />
-            <Route path="*" element={<div>404 Not Found</div>} />
+            <Route path="/mypackages" element={<MyPackages />} />
+            <Route path="/packagedetails" element={<PackageDetails />} />
+            <Route path="*" element={<Navigate to="/" />} />
           </>
         ) : (
           <>
@@ -55,6 +64,7 @@ function AppRoutes() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Signup />} />
             <Route path="/products" element={<ProductPage />} />
+            <Route path="*" element={<Navigate to="/" />} />
           </>
         )}
       </Routes>

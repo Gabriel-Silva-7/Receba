@@ -68,7 +68,7 @@ const HomeLoggedIn = () => {
       <S.ContainerMyPackages>
         <S.MyPackages
           onClick={() => {
-            navigate('/orders');
+            navigate('/mypackages');
           }}
         >
           <S.MyPackagesImg src={PackagesIcon} />
