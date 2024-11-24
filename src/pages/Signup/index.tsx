@@ -15,6 +15,8 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import ErrorIcon from '@mui/icons-material/Error';
 import { api } from '../../config/api';
+import { useNavigate } from 'react-router-dom';
+import arrow from '../../assets/arrow.svg';
 
 const steps = [
   'Informações de login',
@@ -53,6 +55,7 @@ const Signup: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const createUser = (data: any) => {
     if (isLoading) return;
@@ -113,6 +116,9 @@ const Signup: React.FC = () => {
         </S.LoadingOverlay>
       )}
       <S.HeaderNav>
+        <S.BackArrow onClick={() => navigate('/')}>
+          <img src={arrow} />
+        </S.BackArrow>
         <h3
           onClick={() => (window.location.href = '/')}
           style={{ cursor: 'pointer' }}

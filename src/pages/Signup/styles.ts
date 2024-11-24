@@ -113,3 +113,14 @@ export const LoadingOverlay = styled.div`
   align-items: center;
   z-index: 1000;
 `;
+
+export const BackArrow = styled.span`
+  cursor: pointer;
+  position: absolute;
+  left: 20px;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+`;
