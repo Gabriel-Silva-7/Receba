@@ -16,6 +16,7 @@ import {
   faX,
 } from '@fortawesome/free-solid-svg-icons';
 import fotoTeste from '../../assets/fototeste.svg';
+import { useAuth } from '../../context/AuthContext';
 
 const LateralMenu: React.FC<LateralMenuProps> = ({ isOpen, setMenuIsOpen }) => {
   const toggleMenu = () => {
@@ -28,6 +29,7 @@ const LateralMenu: React.FC<LateralMenuProps> = ({ isOpen, setMenuIsOpen }) => {
   const checkIsSelected = (path: string) => {
     return location.pathname === path;
   };
+  const { logout } = useAuth();
 
   return (
     <>
@@ -78,7 +80,7 @@ const LateralMenu: React.FC<LateralMenuProps> = ({ isOpen, setMenuIsOpen }) => {
         <S.User>
           {userHasImage ? <S.UserImg src={fotoTeste} /> : <S.LogoWrapper />}
           <S.UserName>Amanda Belo</S.UserName>
-          <S.LogoutButton onClick={() => navigate('/')}>
+          <S.LogoutButton onClick={() => logout()}>
             <S.LogoutIcon icon={faRightFromBracket} />
           </S.LogoutButton>
         </S.User>
