@@ -18,7 +18,7 @@ const HomeLoggedIn = () => {
 
   const verifyLocker = async () => {
     try {
-      const response = await api.post('/verifyLocker', {
+      await api.post('/verifyLocker', {
         idLocker: 1,
         fdCurso: 0,
       });

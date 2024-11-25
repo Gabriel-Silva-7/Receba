@@ -13,7 +13,7 @@ const PackageDetails = () => {
   const { idLocker, recebido, retirado } = location.state || {};
 
   const unlockLocker = async () => {
-    const response = await api.post('/updateLocker', {
+    await api.post('/updateLocker', {
       idLocker: idLocker,
       status: 1,
       idUser: '',

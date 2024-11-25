@@ -8,7 +8,6 @@ import { api } from '../../config/api';
 import { useAuth } from '../../context/AuthContext';
 import { IconButton, Snackbar } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import terms from '../../../public/Terms.pdf';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
