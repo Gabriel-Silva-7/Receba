@@ -85,3 +85,10 @@ export const ArrowIconWrapper = styled.div`
   align-items: flex-end;
   flex-grow: 1;
 `;
+
+export const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;

@@ -6,6 +6,7 @@ interface AuthContextType {
   token: string | null;
   login: (token: string) => void;
   logout: () => void;
+  email: string | undefined;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -24,6 +25,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       try {
         const decodedToken = jwtDecode(token);
         if (decodedToken.exp) {
+          setEmail(decodedToken?.email);
           const expirationDate = new Date(decodedToken.exp * 1000);
           if (expirationDate <= new Date()) {
             logout();
@@ -43,10 +45,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] =
     useState<boolean>(initialAuthState);
 
+  const [email, setEmail] = useState<any>();
+  console.log(email);
+
   useEffect(() => {
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
+        setEmail(decodedToken?.email);
         if (decodedToken.exp) {
           const expirationDate = new Date(decodedToken.exp * 1000);
           if (expirationDate <= new Date()) {
@@ -54,10 +60,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           }
         }
         setIsAuthenticated(true);
-        console.log('useEffect', token);
       } catch (error) {
         setIsAuthenticated(false);
-        console.log('useEffect', error);
       }
     } else {
       setIsAuthenticated(false);
@@ -76,7 +80,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, token, login, logout }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, token, login, logout, email }}
+    >
       {children}
     </AuthContext.Provider>
   );

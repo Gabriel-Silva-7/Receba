@@ -1,11 +1,12 @@
-import { useState } from 'react';
-// import { api } from '../../config/api';
+import { useEffect, useState } from 'react';
+import { api } from '../../config/api';
 import * as S from './styles';
 import fotoTeste from '../../assets/fototeste.svg';
 import ClosedBox from '../../assets/ClosedBox.png';
 import PackagesIcon from '../../assets/Packages.svg';
 import HelpImg from '../../assets/helpImg.png';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const HomeLoggedIn = () => {
   const [userHasImage] = useState(true);
@@ -13,28 +14,23 @@ const HomeLoggedIn = () => {
   const [lockerNumber] = useState(1);
   const [lockerDate] = useState('10/10/2021 ás 12:00');
   const navigate = useNavigate();
+  const { email } = useAuth();
 
-  // useEffect(() => {
-  //   const verifyLocker = async () => {
-  //     try {
-  //       const response = await api.post(
-  //         'http://localhost:8080/api/verifyLocker',
-  //         {
-  //           idLocker: 1,
-  //           fdCurso: 0,
-  //         }
-  //       );
-  //       console.log(response.data);
-  //     } catch (error) {
-  //       console.error('Error verifying locker:', error);
-  //     }
-  //   };
+  const verifyLocker = async () => {
+    try {
+      const response = await api.post('/verifyLocker', {
+        idLocker: 1,
+        fdCurso: 0,
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error verifying locker:', error);
+    }
+  };
 
-  //   const token = localStorage.getItem('token');
-  //   console.log('Token:', token);
-
-  //   verifyLocker();
-  // }, []);
+  useEffect(() => {
+    verifyLocker();
+  }, []);
 
   return (
     <S.Container>

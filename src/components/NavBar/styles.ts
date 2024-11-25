@@ -13,6 +13,7 @@ export const NavList = styled.ul`
   gap: 2rem;
   padding: 0;
   margin: 0;
+  position: relative;
 `;
 
 export const NavItem = styled.li`

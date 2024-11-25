@@ -20,12 +20,12 @@ import LateralMenu from '../components/LateralMenu';
 import HeaderMobile from '../components/HeaderMobile';
 import MyPackages from '../pages/Packages';
 import PackageDetails from '../pages/PackageDetails';
+import HeaderDesktop from '../components/HeaderDesktopLogged';
 
 function AppRoutes() {
   const location = useLocation();
-  const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(isAuthenticated);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -45,6 +45,15 @@ function AppRoutes() {
         location.pathname !== '/packagedetails' && (
           <>
             <HeaderMobile setMenuIsOpen={setIsOpen} isOpen={isOpen} />
+            <LateralMenu setMenuIsOpen={setIsOpen} isOpen={isOpen} />
+          </>
+        )}
+      {loggedIn &&
+        (location.pathname === '/mypackages' ||
+          location.pathname === '/packagedetails') &&
+        window.screen.width > 900 && (
+          <>
+            <HeaderDesktop setMenuIsOpen={setIsOpen} isOpen={isOpen} />
             <LateralMenu setMenuIsOpen={setIsOpen} isOpen={isOpen} />
           </>
         )}
