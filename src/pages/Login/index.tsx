@@ -8,6 +8,7 @@ import { api } from '../../config/api';
 import { useAuth } from '../../context/AuthContext';
 import { IconButton, Snackbar } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import terms from '../../../public/Terms.pdf';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -107,11 +108,19 @@ const Login: React.FC = () => {
         </S.FormGroup>
         <S.TermsAndConditions>
           Para continuar, você aceita os{' '}
-          <a href="/terms-of-use" target="_blank" rel="noopener noreferrer">
+          <a
+            href="../../../public/Terms.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Termos de uso
           </a>{' '}
-          and{' '}
-          <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">
+          e{' '}
+          <a
+            href="../../../public/Terms.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Politica de Privacidade
           </a>
           .
