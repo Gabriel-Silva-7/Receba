@@ -32,6 +32,7 @@
     "react-hook-form": "^7.53.2",
     "react-input-mask": "^2.0.4",
     "react-input-mask-next": "^3.0.0-alpha.12",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.23.1",
     "styled-components": "^6.1.11"
   },
