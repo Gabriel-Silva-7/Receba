@@ -21,61 +21,107 @@ import MyPackages from '../pages/Packages';
 import PackageDetails from '../pages/PackageDetails';
 import HeaderDesktop from '../components/HeaderDesktopLogged';
 
+const ConditionalNavBar = ({
+  loggedIn,
+  location,
+}: {
+  loggedIn: boolean;
+  location: { pathname: string };
+}) => {
+  if (location.pathname === '/login' || location.pathname === '/register') {
+    return null;
+  }
+
+  if (!loggedIn) {
+    return window.innerWidth > 900 ? <NavBar /> : <HamburgerMenu />;
+  }
+
+  return null;
+};
+
+const ConditionalHeader = ({
+  loggedIn,
+  location,
+  setIsOpen,
+  isOpen,
+}: {
+  loggedIn: boolean;
+  location: { pathname: string };
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isOpen: boolean;
+}) => {
+  if (!loggedIn) {
+    return null;
+  }
+
+  if (
+    location.pathname !== '/mypackages' &&
+    location.pathname !== '/packagedetails'
+  ) {
+    return (
+      <>
+        <HeaderMobile setMenuIsOpen={setIsOpen} isOpen={isOpen} />
+        <LateralMenu setMenuIsOpen={setIsOpen} isOpen={isOpen} />
+      </>
+    );
+  }
+
+  if (window.screen.width > 900) {
+    return (
+      <>
+        <HeaderDesktop setMenuIsOpen={setIsOpen} isOpen={isOpen} />
+        <LateralMenu setMenuIsOpen={setIsOpen} isOpen={isOpen} />
+      </>
+    );
+  }
+
+  return null;
+};
+
 function AppRoutes() {
   const location = useLocation();
-  const { isAuthenticated } = useAuth();
-  const [loggedIn, setLoggedIn] = useState(isAuthenticated);
+  const { isAuthenticated, token } = useAuth();
+  const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    setLoggedIn(isAuthenticated);
-  }, [isAuthenticated]);
+    setLoading(false);
+  }, [isAuthenticated, token]);
 
   return (
     <>
       <GlobalStyle />
-      {location.pathname !== '/login' &&
-        location.pathname !== '/register' &&
-        !loggedIn && (
-          <>{window.innerWidth > 900 ? <NavBar /> : <HamburgerMenu />}</>
-        )}
-      {loggedIn &&
-        location.pathname !== '/mypackages' &&
-        location.pathname !== '/packagedetails' && (
-          <>
-            <HeaderMobile setMenuIsOpen={setIsOpen} isOpen={isOpen} />
-            <LateralMenu setMenuIsOpen={setIsOpen} isOpen={isOpen} />
-          </>
-        )}
-      {loggedIn &&
-        (location.pathname === '/mypackages' ||
-          location.pathname === '/packagedetails') &&
-        window.screen.width > 900 && (
-          <>
-            <HeaderDesktop setMenuIsOpen={setIsOpen} isOpen={isOpen} />
-            <LateralMenu setMenuIsOpen={setIsOpen} isOpen={isOpen} />
-          </>
-        )}
-      <Routes>
-        {loggedIn ? (
-          <>
-            <Route path="/" element={<HomeLogged />} />
-            <Route path="/mypackages" element={<MyPackages />} />
-            <Route path="/packagedetails" element={<PackageDetails />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </>
-        ) : (
-          <>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<div />} />
-            <Route path="/contact" element={<div />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Signup />} />
-            <Route path="/products" element={<ProductPage />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </>
-        )}
-      </Routes>
+      <ConditionalNavBar loggedIn={isAuthenticated} location={location} />
+      <ConditionalHeader
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        loggedIn={isAuthenticated}
+        location={location}
+      />
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <Routes>
+          {isAuthenticated ? (
+            <>
+              <Route path="/" element={<HomeLogged />} />
+              <Route path="/mypackages" element={<MyPackages />} />
+              <Route path="/packagedetails" element={<PackageDetails />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </>
+          ) : (
+            <>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<div />} />
+              <Route path="/contact" element={<div />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Signup />} />
+              <Route path="/products" element={<ProductPage />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </>
+          )}
+        </Routes>
+      )}
     </>
   );
 }

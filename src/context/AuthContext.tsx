@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 interface DecodedToken {
   email: string;
   exp: number;
+  nome: string;
 }
 
 interface AuthContextType {
@@ -12,6 +13,7 @@ interface AuthContextType {
   login: (token: string) => void;
   logout: () => void;
   email: string | undefined;
+  name: string | undefined;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -31,6 +33,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       try {
         if (decodedToken && decodedToken.exp) {
           setEmail(decodedToken?.email);
+          setName(decodedToken?.nome);
           const expirationDate = new Date(decodedToken.exp * 1000);
           if (expirationDate <= new Date()) {
             logout();
@@ -51,11 +54,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     useState<boolean>(initialAuthState);
 
   const [email, setEmail] = useState<any>();
+  const [name, setName] = useState<any>();
 
   useEffect(() => {
     if (token && decodedToken) {
       try {
         setEmail(decodedToken?.email);
+        setName(decodedToken?.nome);
         if (decodedToken.exp) {
           const expirationDate = new Date(decodedToken.exp * 1000);
           if (expirationDate <= new Date()) {
@@ -84,7 +89,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, token, login, logout, email }}
+      value={{ isAuthenticated, token, login, logout, email, name }}
     >
       {children}
     </AuthContext.Provider>

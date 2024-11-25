@@ -68,6 +68,11 @@ export const LastPackagesWrapper = styled.div`
   background: #f6efda;
   display: flex;
   justify-content: center;
+
+  img {
+    width: 58px;
+    height: 58px;
+  }
 `;
 
 export const PackageWrapper = styled.div`
@@ -198,4 +203,12 @@ export const NeedHelpTitle = styled.span`
 export const NeedHelpIcon = styled.img`
   width: 60px;
   height: 60px;
+`;
+
+export const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f5f5f5;
 `;

@@ -66,11 +66,14 @@ const MyPackages = () => {
                 <S.TextWrapper>
                   <S.LockerTitle>Locker {e.IdLocker}</S.LockerTitle>
                   <S.PackageReceived>
-                    Recebido:
+                    Recebido:{' '}
                     {new Date(e.DataHoraEntrega).toLocaleString('pt-BR', {
                       day: '2-digit',
                       month: '2-digit',
                       year: 'numeric',
+                    })}{' '}
+                    ás{' '}
+                    {new Date(e.DataHoraEntrega).toLocaleTimeString('pt-BR', {
                       hour: '2-digit',
                       minute: '2-digit',
                     })}
@@ -82,9 +85,15 @@ const MyPackages = () => {
                         day: '2-digit',
                         month: '2-digit',
                         year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}
+                      })}{' '}
+                      ás{' '}
+                      {new Date(e.DataHoraRetirada).toLocaleTimeString(
+                        'pt-BR',
+                        {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        }
+                      )}
                     </S.PackageWithdrawn>
                   )}
                 </S.TextWrapper>

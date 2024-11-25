@@ -6,6 +6,8 @@ import hide from '../../assets/hide.svg';
 import { API_URL } from '../../config/env';
 import { api } from '../../config/api';
 import { useAuth } from '../../context/AuthContext';
+import { IconButton, Snackbar } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -13,16 +15,46 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const { login } = useAuth();
+  const [openStack, setOpenStack] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await api.post(`${API_URL}/login`, { email, password });
-    login(response.data.token);
-    navigate('/');
+    await api
+      .post(`${API_URL}/login`, { email, password })
+      .then(response => {
+        login(response.data.token);
+        navigate('/');
+      })
+      .catch(error => {
+        console.error('Error logging in:', error);
+        setOpenStack(true);
+        setError(true);
+      });
   };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={() => setOpenStack(false)}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
     <S.LoginContainer>
+      <Snackbar
+        open={openStack}
+        autoHideDuration={6000}
+        onClose={() => setOpenStack(false)}
+        message="Email ou senha incorretos"
+        action={action}
+      />
       <S.HeaderNav>
         <S.BackArrow onClick={() => navigate('/')}>
           <img src={arrow} />
@@ -65,6 +97,7 @@ const Login: React.FC = () => {
             onChange={e => setPassword(e.target.value)}
             required
           />
+          {error && <S.Error>Email ou senha incorretos</S.Error>}
         </S.FormGroup>
         <S.FormGroup>
           <S.CheckboxContainer>
@@ -83,7 +116,12 @@ const Login: React.FC = () => {
           </a>
           .
         </S.TermsAndConditions>
-        <S.Button type="submit">Log in</S.Button>
+        <S.Button
+          type="submit"
+          style={{ opacity: email && password.length >= 6 ? 1 : 0.25 }}
+        >
+          Log in
+        </S.Button>
         <S.LinkSignUp>
           Don’t have an account?{' '}
           <a onClick={() => navigate('/register')}>Sign up</a>

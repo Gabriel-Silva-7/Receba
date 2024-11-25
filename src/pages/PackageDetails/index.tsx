@@ -5,13 +5,12 @@ import ClosedBox from '../../assets/ClosedBoxBig.png';
 import OpenBox from '../../assets/OpenBoxBig.png';
 import Checkbox from '@mui/material/Checkbox';
 import { api } from '../../config/api';
+import { useState } from 'react';
 
 const PackageDetails = () => {
   const location = useLocation();
+  const [awarenessChecked, setAwarenessChecked] = useState(false);
   const { idLocker, recebido, retirado } = location.state || {};
-  console.log('idLocker:', idLocker);
-  console.log('recebido:', recebido);
-  console.log('retirado:', retirado);
 
   const unlockLocker = async () => {
     const response = await api.post('/updateLocker', {
@@ -42,13 +41,28 @@ const PackageDetails = () => {
       </S.TextWrapper>
       <S.TextWrapper>
         <S.LabelTitle>Recebido:</S.LabelTitle>
-        <S.LabelDescription>14/01/2024 às 17:23</S.LabelDescription>
+        <S.LabelDescription>
+          {new Date(recebido).toLocaleString('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          })}{' '}
+          às{' '}
+          {new Date(recebido).toLocaleTimeString('pt-BR', {
+            hour: '2-digit',
+            minute: '2-digit',
+          })}
+        </S.LabelDescription>
       </S.TextWrapper>
       {!retirado && (
         <>
           <S.CheckboxWrapper>
             <S.WrapperCheckbox>
-              <Checkbox id="awareness" name="awareness" />
+              <Checkbox
+                id="awareness"
+                name="awareness"
+                onChange={e => setAwarenessChecked(e.target.checked)}
+              />
               <label htmlFor="awareness">
                 Estou ciente que após desbloquear o locker terei um prazo de 5
                 minutos para retirada da encomenda.
@@ -56,7 +70,10 @@ const PackageDetails = () => {
             </S.WrapperCheckbox>
           </S.CheckboxWrapper>
           <S.ButtonWrapper>
-            <S.UnlockLockerButton onClick={unlockLocker}>
+            <S.UnlockLockerButton
+              onClick={unlockLocker}
+              disabled={!awarenessChecked}
+            >
               Desbloquear locker
             </S.UnlockLockerButton>
           </S.ButtonWrapper>
@@ -65,7 +82,18 @@ const PackageDetails = () => {
       {retirado && (
         <S.TextWrapper>
           <S.LabelTitle>Retirado:</S.LabelTitle>
-          <S.LabelDescription>14/01/2024 às 17:23</S.LabelDescription>
+          <S.LabelDescription>
+            {new Date(retirado).toLocaleString('pt-BR', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })}{' '}
+            às{' '}
+            {new Date(retirado).toLocaleTimeString('pt-BR', {
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+          </S.LabelDescription>
         </S.TextWrapper>
       )}
     </S.Container>

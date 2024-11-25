@@ -29,7 +29,7 @@ const LateralMenu: React.FC<LateralMenuProps> = ({ isOpen, setMenuIsOpen }) => {
   const checkIsSelected = (path: string) => {
     return location.pathname === path;
   };
-  const { logout } = useAuth();
+  const { logout, name } = useAuth();
 
   return (
     <>
@@ -79,7 +79,7 @@ const LateralMenu: React.FC<LateralMenuProps> = ({ isOpen, setMenuIsOpen }) => {
         </S.MenuItem>
         <S.User>
           {userHasImage ? <S.UserImg src={fotoTeste} /> : <S.LogoWrapper />}
-          <S.UserName>Amanda Belo</S.UserName>
+          <S.UserName>{name}</S.UserName>
           <S.LogoutButton onClick={() => logout()}>
             <S.LogoutIcon icon={faRightFromBracket} />
           </S.LogoutButton>

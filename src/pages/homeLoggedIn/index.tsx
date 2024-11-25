@@ -3,18 +3,19 @@ import { api } from '../../config/api';
 import * as S from './styles';
 import fotoTeste from '../../assets/fototeste.svg';
 import ClosedBox from '../../assets/ClosedBox.png';
+import OpenBox from '../../assets/OpenBox.png';
 import PackagesIcon from '../../assets/Packages.svg';
 import HelpImg from '../../assets/helpImg.png';
 import { useNavigate } from 'react-router-dom';
-// import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const HomeLoggedIn = () => {
   const [userHasImage] = useState(true);
-  const [userName] = useState('Amanda');
-  const [lockerNumber] = useState(1);
-  const [lockerDate] = useState('10/10/2021 ás 12:00');
   const navigate = useNavigate();
-  // const { email } = useAuth();
+  const { name, email } = useAuth();
+  const [lastPackages, setLastPackages] = useState([]);
+  console.log(lastPackages);
 
   const verifyLocker = async () => {
     try {
@@ -28,36 +29,103 @@ const HomeLoggedIn = () => {
     }
   };
 
+  const getLast3Packages = async () => {
+    await api
+      .post('/getLastLockerHistory', {
+        email: email,
+      })
+      .then(response => {
+        setLastPackages(response.data.getLastHistory);
+      })
+      .catch(error => {
+        console.log('Error getting last packages:', error);
+      });
+  };
+
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    verifyLocker();
+    const fetchData = async () => {
+      setLoading(true);
+      await verifyLocker();
+      await getLast3Packages();
+      setLoading(false);
+    };
+
+    fetchData();
   }, []);
+
+  if (loading) {
+    return (
+      <S.LoadingContainer>
+        <CircularProgress />
+      </S.LoadingContainer>
+    );
+  }
 
   return (
     <S.Container>
       <S.User>
         {userHasImage ? <S.UserImg src={fotoTeste} /> : <S.LogoWrapper />}
-        <S.UserName>Olá, {userName}!</S.UserName>
+        <S.UserName>
+          Olá, {(name && name.split(' ')[0]) || 'Usuário.'}!
+        </S.UserName>
       </S.User>
       <S.LastPackagesTitle>Últimas encomendas</S.LastPackagesTitle>
       <S.LastPackages>
         <S.LastPackagesWrapper>
-          <S.PackageWrapper>
-            <img src={ClosedBox} alt="Closed Box" />
-            <S.LockerNumber>locker {lockerNumber}</S.LockerNumber>
-            <S.LockerDate>{lockerDate}</S.LockerDate>
-          </S.PackageWrapper>
-          <S.Divider />
-          <S.PackageWrapper>
-            <img src={ClosedBox} alt="Closed Box" />
-            <S.LockerNumber>locker {lockerNumber}</S.LockerNumber>
-            <S.LockerDate>{lockerDate}</S.LockerDate>
-          </S.PackageWrapper>
-          <S.Divider />
-          <S.PackageWrapper>
-            <img src={ClosedBox} alt="Closed Box" />
-            <S.LockerNumber>locker {lockerNumber}</S.LockerNumber>
-            <S.LockerDate>{lockerDate}</S.LockerDate>
-          </S.PackageWrapper>
+          {lastPackages.map((e: any) => {
+            return (
+              <>
+                <S.PackageWrapper
+                  key={`${e.IdLocker} - ${e.DataHoraEntrega} - ${e.DataHoraRetirada}- ${e.IdHistorico}`}
+                  onClick={() =>
+                    navigate('/packagedetails', {
+                      state: {
+                        idLocker: e.IdLocker,
+                        recebido: e.DataHoraEntrega,
+                        retirado: e.DataHoraRetirada,
+                      },
+                    })
+                  }
+                >
+                  {e.DataHoraRetirada ? (
+                    <img src={OpenBox} alt="Open Box" />
+                  ) : (
+                    <img src={ClosedBox} alt="Closed Box" />
+                  )}
+                  <S.LockerNumber>locker {e.IdLocker}</S.LockerNumber>
+                  <S.LockerDate>
+                    {!e.DataHoraRetirada &&
+                      new Date(e.DataHoraEntrega).toLocaleString('pt-BR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                      })}
+                    {!e.DataHoraRetirada && ' ás '}
+                    {!e.DataHoraRetirada &&
+                      new Date(e.DataHoraEntrega).toLocaleTimeString('pt-BR', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    {e.DataHoraRetirada &&
+                      new Date(e.DataHoraRetirada).toLocaleString('pt-BR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                      })}
+                    {e.DataHoraRetirada && ' ás '}
+                    {e.DataHoraRetirada &&
+                      new Date(e.DataHoraRetirada).toLocaleTimeString('pt-BR', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                  </S.LockerDate>
+                </S.PackageWrapper>
+                <S.Divider />
+              </>
+            );
+          })}
         </S.LastPackagesWrapper>
       </S.LastPackages>
 

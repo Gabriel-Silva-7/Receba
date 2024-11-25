@@ -111,6 +111,13 @@ export const UnlockLockerButton = styled.button`
   font-weight: bold;
   line-height: normal;
   margin-top: 32px;
+  opacity: 1;
+
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.25;
+  }
 `;
 
 export const ButtonWrapper = styled.div`

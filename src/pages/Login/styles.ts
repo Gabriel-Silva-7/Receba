@@ -196,3 +196,13 @@ export const LinkSignUp = styled.span`
     text-underline-position: from-font;
   }
 `;
+
+export const Error = styled.span`
+  color: red;
+  font-family: Poppins;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: 8px;
+`;
