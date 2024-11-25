@@ -68,9 +68,9 @@ const Login: React.FC = () => {
       </S.HeaderNav>
       <S.Divider />
       <S.Form onSubmit={handleLogin}>
-        <S.Title>Log in</S.Title>
+        <S.Title>Login</S.Title>
         <S.FormGroup>
-          <S.Label htmlFor="email">Email:</S.Label>
+          <S.Label htmlFor="email">E-mail:</S.Label>
           <S.Input
             type="email"
             id="email"
@@ -81,13 +81,13 @@ const Login: React.FC = () => {
         </S.FormGroup>
         <S.FormGroup>
           <S.LabelContainer>
-            <S.Label htmlFor="password">Password:</S.Label>
+            <S.Label htmlFor="password">Senha:</S.Label>
             <S.ToggleButton
               type="button"
               onClick={() => setShowPassword(!showPassword)}
             >
               <img src={hide} />
-              {showPassword ? 'Hide' : 'Show'}
+              {showPassword ? 'Ocultar' : 'Mostrar'}
             </S.ToggleButton>
           </S.LabelContainer>
           <S.Input
@@ -102,17 +102,17 @@ const Login: React.FC = () => {
         <S.FormGroup>
           <S.CheckboxContainer>
             <S.Checkbox type="checkbox" id="rememberMe" />
-            <S.Label htmlFor="rememberMe">Remember me</S.Label>
+            <S.Label htmlFor="rememberMe">Lembrar de mim</S.Label>
           </S.CheckboxContainer>
         </S.FormGroup>
         <S.TermsAndConditions>
-          By continuing, you agree to the{' '}
+          Para continuar, você aceita os{' '}
           <a href="/terms-of-use" target="_blank" rel="noopener noreferrer">
-            Terms of use
+            Termos de uso
           </a>{' '}
           and{' '}
           <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">
-            Privacy Policy
+            Politica de Privacidade
           </a>
           .
         </S.TermsAndConditions>
@@ -123,8 +123,8 @@ const Login: React.FC = () => {
           Log in
         </S.Button>
         <S.LinkSignUp>
-          Don’t have an account?{' '}
-          <a onClick={() => navigate('/register')}>Sign up</a>
+          Não tem uma conta?{' '}
+          <a onClick={() => navigate('/register')}>Cadastre-se</a>
         </S.LinkSignUp>
       </S.Form>
     </S.LoginContainer>
