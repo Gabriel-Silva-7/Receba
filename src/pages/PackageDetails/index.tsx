@@ -18,7 +18,6 @@ const PackageDetails = () => {
       status: 1,
       idUser: '',
     });
-    console.log(response.data);
   };
 
   return (

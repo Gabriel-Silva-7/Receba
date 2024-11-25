@@ -15,7 +15,6 @@ const HomeLoggedIn = () => {
   const navigate = useNavigate();
   const { name, email } = useAuth();
   const [lastPackages, setLastPackages] = useState([]);
-  console.log(lastPackages);
 
   const verifyLocker = async () => {
     try {
@@ -23,7 +22,6 @@ const HomeLoggedIn = () => {
         idLocker: 1,
         fdCurso: 0,
       });
-      console.log(response.data);
     } catch (error) {
       console.error('Error verifying locker:', error);
     }
@@ -38,7 +36,7 @@ const HomeLoggedIn = () => {
         setLastPackages(response.data.getLastHistory);
       })
       .catch(error => {
-        console.log('Error getting last packages:', error);
+        console.error('Error getting last packages:', error);
       });
   };
 
@@ -66,7 +64,11 @@ const HomeLoggedIn = () => {
   return (
     <S.Container>
       <S.User>
-        {userHasImage ? <S.UserImg src={fotoTeste} /> : <S.LogoWrapper />}
+        {userHasImage ? (
+          <S.UserImg onClick={() => navigate('/profile')} src={fotoTeste} />
+        ) : (
+          <S.LogoWrapper />
+        )}
         <S.UserName>
           Olá, {(name && name.split(' ')[0]) || 'Usuário.'}!
         </S.UserName>
@@ -74,7 +76,8 @@ const HomeLoggedIn = () => {
       <S.LastPackagesTitle>Últimas encomendas</S.LastPackagesTitle>
       <S.LastPackages>
         <S.LastPackagesWrapper>
-          {lastPackages.map((e: any) => {
+          {lastPackages.map((e: any, index: number) => {
+            const isLastItem = index === lastPackages.length - 1;
             return (
               <>
                 <S.PackageWrapper
@@ -122,7 +125,7 @@ const HomeLoggedIn = () => {
                       })}
                   </S.LockerDate>
                 </S.PackageWrapper>
-                <S.Divider />
+                {!isLastItem && <S.Divider />}
               </>
             );
           })}

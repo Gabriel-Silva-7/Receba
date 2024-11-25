@@ -19,7 +19,6 @@ const MyPackages = () => {
       const response = await api.post('/getLockerHistory', {
         email: email,
       });
-      console.log(response.data);
       setData(response.data);
     } catch (error) {
       console.error('Error verifying locker:', error);
