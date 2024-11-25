@@ -6,7 +6,7 @@ import ClosedBox from '../../assets/ClosedBox.png';
 import PackagesIcon from '../../assets/Packages.svg';
 import HelpImg from '../../assets/helpImg.png';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+// import { useAuth } from '../../context/AuthContext';
 
 const HomeLoggedIn = () => {
   const [userHasImage] = useState(true);
@@ -14,7 +14,7 @@ const HomeLoggedIn = () => {
   const [lockerNumber] = useState(1);
   const [lockerDate] = useState('10/10/2021 ás 12:00');
   const navigate = useNavigate();
-  const { email } = useAuth();
+  // const { email } = useAuth();
 
   const verifyLocker = async () => {
     try {

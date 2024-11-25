@@ -21,11 +21,11 @@ const MenuButton = styled.button`
   }
 `;
 
-const Title = styled.h3`
-  margin: 0;
-  flex-grow: 1;
-  text-align: center;
-`;
+// const Title = styled.h3`
+//   margin: 0;
+//   flex-grow: 1;
+//   text-align: center;
+// `;
 
 const HeaderDesktop = ({
   isOpen,

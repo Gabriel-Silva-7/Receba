@@ -1,6 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 
+interface DecodedToken {
+  email: string;
+  exp: number;
+}
+
 interface AuthContextType {
   isAuthenticated: boolean;
   token: string | null;
@@ -19,12 +24,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem('token')
   );
+  const decodedToken = token ? jwtDecode<DecodedToken>(token) : null;
 
   const initialAuthState = () => {
     if (token) {
       try {
-        const decodedToken = jwtDecode(token);
-        if (decodedToken.exp) {
+        if (decodedToken && decodedToken.exp) {
           setEmail(decodedToken?.email);
           const expirationDate = new Date(decodedToken.exp * 1000);
           if (expirationDate <= new Date()) {
@@ -46,12 +51,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     useState<boolean>(initialAuthState);
 
   const [email, setEmail] = useState<any>();
-  console.log(email);
 
   useEffect(() => {
-    if (token) {
+    if (token && decodedToken) {
       try {
-        const decodedToken = jwtDecode(token);
         setEmail(decodedToken?.email);
         if (decodedToken.exp) {
           const expirationDate = new Date(decodedToken.exp * 1000);
