@@ -21,6 +21,7 @@ import MyPackages from '../pages/Packages';
 import PackageDetails from '../pages/PackageDetails';
 import HeaderDesktop from '../components/HeaderDesktopLogged';
 import Profile from '../pages/Profile';
+import NewPackage from '../pages/NewPackage';
 
 const ConditionalNavBar = ({
   loggedIn,
@@ -119,6 +120,7 @@ function AppRoutes() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Signup />} />
               <Route path="/products" element={<ProductPage />} />
+              <Route path="/newpackage" element={<NewPackage />} />
               <Route path="*" element={<Navigate to="/" />} />
             </>
           )}

@@ -3,19 +3,24 @@ import * as S from './styles';
 import { useAuth } from '../../context/AuthContext';
 import fotoTeste from '../../assets/fototeste.svg';
 import { api } from '../../config/api';
+import { Box, Modal } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CloseIcon from '@mui/icons-material/Close';
+import ErrorIcon from '@mui/icons-material/Error';
+
+interface User {
+  Nome: string;
+  Endereco: string;
+  Celular: string;
+}
 
 const Profile = () => {
   const [userHasImage] = useState(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { name, email } = useAuth();
-
-  interface User {
-    Nome: string;
-    Endereco: string;
-    Celular: string;
-  }
-
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const getProfileInfo = async () => {
     setLoading(true);
@@ -33,12 +38,17 @@ const Profile = () => {
 
   const updateProfile = async () => {
     try {
-      await api.post('/updateUser', {
-        email: email,
-        nome: user?.Nome,
-        cel: user?.Celular,
-      });
+      await api
+        .post('/updateUser', {
+          email: email,
+          nome: user?.Nome,
+          cel: user?.Celular,
+        })
+        .then(() => {
+          setOpen(true);
+        });
     } catch (error) {
+      setErrorMessage('Erro ao atualizar informações do usuário');
       console.error('Error updating profile:', error);
     }
   };
@@ -46,6 +56,28 @@ const Profile = () => {
   useEffect(() => {
     getProfileInfo();
   }, []);
+
+  const modalStyle = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: `${window.innerWidth > 768 ? '45%' : '90%'}`,
+    height: '25%',
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: `${window.innerWidth > 768 ? 4 : 3}`,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    borderRadius: '16px',
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    window.location.reload();
+  };
 
   if (loading) {
     return (
@@ -119,6 +151,57 @@ const Profile = () => {
         </S.FormGroup>
       </S.Form>
       <S.Button onClick={updateProfile}>Atualizar informações</S.Button>
+      <Modal open={open} onClose={handleClose}>
+        <Box sx={{ ...modalStyle }}>
+          <Box
+            position="absolute"
+            top={0}
+            right={0}
+            p={1}
+            sx={{ cursor: 'pointer' }}
+            onClick={handleClose}
+          >
+            <CloseIcon />
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flexDirection="column"
+          >
+            <CheckCircleIcon
+              style={{ color: 'green', fontSize: 50, marginBottom: 10 }}
+            />
+            <h2>Usuário atualizado com sucesso!</h2>
+          </Box>
+        </Box>
+      </Modal>
+      <Modal open={!!errorMessage} onClose={() => setErrorMessage(null)}>
+        <Box sx={{ ...modalStyle }}>
+          <Box
+            position="absolute"
+            top={0}
+            right={0}
+            p={1}
+            sx={{ cursor: 'pointer' }}
+            onClick={() => setErrorMessage(null)}
+          >
+            <CloseIcon />
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flexDirection="column"
+          >
+            <ErrorIcon
+              style={{ color: 'red', fontSize: 50, marginBottom: 10 }}
+            />
+            <h2>Erro ao atualizar usuário</h2>
+            <p>{errorMessage}</p>
+          </Box>
+        </Box>
+      </Modal>
     </S.Container>
   );
 };

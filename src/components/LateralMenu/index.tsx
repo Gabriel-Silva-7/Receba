@@ -1,10 +1,5 @@
 import React from 'react';
 import logo from '../../assets/logomini.png';
-
-interface LateralMenuProps {
-  isOpen: boolean;
-  setMenuIsOpen: (isOpen: boolean) => void;
-}
 import * as S from './styles';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -17,6 +12,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import fotoTeste from '../../assets/fototeste.svg';
 import { useAuth } from '../../context/AuthContext';
+
+interface LateralMenuProps {
+  isOpen: boolean;
+  setMenuIsOpen: (isOpen: boolean) => void;
+}
 
 const LateralMenu: React.FC<LateralMenuProps> = ({ isOpen, setMenuIsOpen }) => {
   const toggleMenu = () => {
@@ -45,14 +45,20 @@ const LateralMenu: React.FC<LateralMenuProps> = ({ isOpen, setMenuIsOpen }) => {
         </S.MenuHeaderWrapper>
         <S.MenuItem
           isSelected={checkIsSelected('/')}
-          onClick={() => navigate('/')}
+          onClick={() => {
+            navigate('/');
+            if (window.innerWidth <= 768) setMenuIsOpen(false);
+          }}
         >
           <S.Icon icon={faHouse} isSelected={checkIsSelected('/')} />
           Home
         </S.MenuItem>
         <S.MenuItem
           isSelected={checkIsSelected('/mypackages')}
-          onClick={() => navigate('/mypackages')}
+          onClick={() => {
+            navigate('/mypackages');
+            if (window.innerWidth <= 768) setMenuIsOpen(false);
+          }}
         >
           <S.Icon
             icon={faBoxesStacked}
@@ -62,14 +68,20 @@ const LateralMenu: React.FC<LateralMenuProps> = ({ isOpen, setMenuIsOpen }) => {
         </S.MenuItem>
         <S.MenuItem
           isSelected={checkIsSelected('/profile')}
-          onClick={() => navigate('/profile')}
+          onClick={() => {
+            navigate('/profile');
+            if (window.innerWidth <= 768) setMenuIsOpen(false);
+          }}
         >
           <S.Icon icon={faUser} isSelected={checkIsSelected('/profile')} />
           Perfil
         </S.MenuItem>
         <S.MenuItem
           isSelected={checkIsSelected('/help')}
-          onClick={() => navigate('/help')}
+          onClick={() => {
+            navigate('/help');
+            if (window.innerWidth <= 768) setMenuIsOpen(false);
+          }}
         >
           <S.Icon
             icon={faHandHoldingHeart}

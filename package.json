@@ -34,6 +34,7 @@
     "react-input-mask-next": "^3.0.0-alpha.12",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.23.1",
+    "react-select": "^5.8.3",
     "styled-components": "^6.1.11"
   },
   "devDependencies": {

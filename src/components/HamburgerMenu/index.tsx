@@ -21,7 +21,9 @@ const HamburgerMenu: React.FC = () => {
   return (
     <Container>
       <MenuButton onClick={toggleMenu}>&#9776;</MenuButton>
-      <Logo onClick={() => (window.location.href = '/')}>Receba!</Logo>
+      <Logo onClick={() => (window.location.href = '/')}>
+        {window.location.pathname === '/newpackage' ? 'Entrega!' : 'Receba!'}
+      </Logo>
       <SingInSignUpWrapper>
         {isAuthenticated && window.innerWidth > 375 ? (
           <SignInSingUpButton onClick={() => (window.location.href = '/')}>
