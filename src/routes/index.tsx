@@ -132,7 +132,6 @@ function AppRoutes() {
               <Route path="/mypackages" element={<MyPackages />} />
               <Route path="/packagedetails" element={<PackageDetails />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/help" element={<Help />} />
               {isAdmin && (
                 <>
                   <Route
@@ -148,7 +147,6 @@ function AppRoutes() {
             <>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<div />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Signup />} />
               <Route path="/products" element={<ProductPage />} />
@@ -156,6 +154,7 @@ function AppRoutes() {
               <Route path="*" element={<Navigate to="/" />} />
             </>
           )}
+          <Route path="/help" element={<Help />} />
         </Routes>
       )}
     </>
