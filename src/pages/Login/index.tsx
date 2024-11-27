@@ -116,7 +116,7 @@ const Login: React.FC = () => {
           </a>{' '}
           e{' '}
           <a
-            href="../../../public/Terms.pdf"
+            href="../../../public/Policy.pdf"
             target="_blank"
             rel="noopener noreferrer"
           >
