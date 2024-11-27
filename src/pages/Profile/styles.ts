@@ -14,7 +14,6 @@ export const User = styled.div`
   align-items: center;
   margin-top: 45px;
   margin-left: 41px;
-  margin-bottom: 58px;
 
   @media (max-width: 360px) {
     flex-direction: column;
@@ -26,6 +25,7 @@ export const UserImg = styled.img`
   width: 100px;
   height: 100px;
   margin-right: 35px;
+  border-radius: 50%;
 `;
 
 export const LogoWrapper = styled.div`
@@ -69,6 +69,7 @@ export const Form = styled.form`
   align-items: center;
   justify-content: center;
   width: 100%;
+  margin-top: 58px;
 `;
 
 export const FormGroup = styled.div`
@@ -128,4 +129,15 @@ export const Button = styled.button`
   font-weight: 400;
   line-height: normal;
   align-self: center;
+`;
+
+export const UploadButton = styled.div`
+  width: 85%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 20px;
+  margin-top: 20px;
 `;

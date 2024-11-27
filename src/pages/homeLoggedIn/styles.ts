@@ -20,6 +20,7 @@ export const UserImg = styled.img`
   width: 100px;
   height: 100px;
   margin-right: 35px;
+  border-radius: 50%;
 `;
 
 export const LogoWrapper = styled.div`

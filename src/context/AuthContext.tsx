@@ -6,6 +6,7 @@ interface DecodedToken {
   exp: number;
   nome: string;
   userId: number;
+  isAdmin: boolean;
 }
 
 interface AuthContextType {
@@ -16,6 +17,7 @@ interface AuthContextType {
   email: string | undefined;
   name: string | undefined;
   userId: number;
+  isAdmin: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -32,6 +34,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [email, setEmail] = useState<any>();
   const [name, setName] = useState<any>();
   const [userId, setUserId] = useState<any>();
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const decodedToken = token ? jwtDecode<DecodedToken>(token) : null;
 
   const initialAuthState = () => {
@@ -41,6 +44,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           setEmail(decodedToken?.email);
           setName(decodedToken?.nome);
           setUserId(decodedToken?.userId);
+          setIsAdmin(decodedToken?.isAdmin);
           const expirationDate = new Date(decodedToken.exp * 1000);
           if (expirationDate <= new Date()) {
             logout();
@@ -66,6 +70,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setEmail(decodedToken?.email);
         setName(decodedToken?.nome);
         setUserId(decodedToken?.userId);
+        setIsAdmin(decodedToken?.isAdmin);
         if (decodedToken.exp) {
           const expirationDate = new Date(decodedToken.exp * 1000);
           if (expirationDate <= new Date()) {
@@ -94,7 +99,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, token, login, logout, email, name, userId }}
+      value={{
+        isAuthenticated,
+        token,
+        login,
+        logout,
+        email,
+        name,
+        userId,
+        isAdmin,
+      }}
     >
       {children}
     </AuthContext.Provider>

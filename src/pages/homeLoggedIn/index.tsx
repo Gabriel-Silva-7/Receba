@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '../../config/api';
 import * as S from './styles';
-import fotoTeste from '../../assets/fototeste.svg';
+import UserLogoDefault from '../../assets/user.png';
 import ClosedBox from '../../assets/ClosedBox.png';
 import OpenBox from '../../assets/OpenBox.png';
 import PackagesIcon from '../../assets/Packages.svg';
@@ -9,12 +9,17 @@ import HelpImg from '../../assets/helpImg.png';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import CircularProgress from '@mui/material/CircularProgress';
+import PersonIcon from '@mui/icons-material/Person';
 
 const HomeLoggedIn = () => {
-  const [userHasImage] = useState(true);
+  const [userHasImage, setUserHasImage] = useState<any>();
   const navigate = useNavigate();
   const { name, email } = useAuth();
   const [lastPackages, setLastPackages] = useState([]);
+  const [user, setUser] = useState<any>({});
+  const [imgLoading, setImgLoading] = useState(true);
+  console.log(userHasImage, 'userHasImage');
+  console.log(imgLoading, 'imgLoading');
 
   const verifyLocker = async () => {
     try {
@@ -24,6 +29,22 @@ const HomeLoggedIn = () => {
       });
     } catch (error) {
       console.error('Error verifying locker:', error);
+    }
+  };
+
+  const getProfileInfo = async () => {
+    setLoading(true);
+    try {
+      const response = await api.post('/userDetails', {
+        email: email,
+      });
+      setUser(response.data.userDetails[0]);
+      setUserHasImage(response.data.userDetails[0].Imagem !== null);
+    } catch (error) {
+      console.error('Error fetching profile info:', error);
+    } finally {
+      setLoading(false);
+      setImgLoading(false);
     }
   };
 
@@ -49,8 +70,11 @@ const HomeLoggedIn = () => {
       await getLast3Packages();
       setLoading(false);
     };
-
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    getProfileInfo();
   }, []);
 
   if (loading) {
@@ -64,10 +88,25 @@ const HomeLoggedIn = () => {
   return (
     <S.Container>
       <S.User>
-        {userHasImage ? (
-          <S.UserImg onClick={() => navigate('/profile')} src={fotoTeste} />
+        {/* {imgLoading ? (
+          <CircularProgress />
+        ) : imgLoading ? (
+          <S.UserImg onClick={() => navigate('/profile')} src={user?.Imagem} />
         ) : (
-          <S.LogoWrapper />
+          <S.UserImg
+            onClick={() => navigate('/profile')}
+            src={UserLogoDefault}
+          />
+        )} */}
+        {imgLoading ? (
+          <CircularProgress />
+        ) : userHasImage ? (
+          <S.UserImg onClick={() => navigate('/profile')} src={user?.Imagem} />
+        ) : (
+          <S.UserImg
+            onClick={() => navigate('/profile')}
+            src={UserLogoDefault}
+          />
         )}
         <S.UserName>
           Olá, {(name && name.split(' ')[0]) || 'Usuário.'}!

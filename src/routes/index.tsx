@@ -23,7 +23,8 @@ import HeaderDesktop from '../components/HeaderDesktopLogged';
 import Profile from '../pages/Profile';
 import NewPackage from '../pages/NewPackage';
 import Help from '../pages/Help';
-import { api } from '../config/api';
+import ManageLockers from '../pages/ManageLockers';
+import ManageLockersDetails from '../pages/ManageLockersDetails';
 import RegisterResident from '../pages/RegisterResident';
 
 const ConditionalNavBar = ({
@@ -85,27 +86,9 @@ const ConditionalHeader = ({
 
 function AppRoutes() {
   const location = useLocation();
-  const { isAuthenticated, token } = useAuth();
+  const { isAuthenticated, token, isAdmin } = useAuth();
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
-  const { email } = useAuth();
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  const getIsAdmin = async () => {
-    try {
-      const response = await api.post('/verifyUserAdmin', {
-        email: email,
-      });
-      setIsAdmin(response.data.value);
-    } catch (error) {
-      console.error('Error verifying admin status:', error);
-      setIsAdmin(false);
-    }
-  };
-
-  useEffect(() => {
-    getIsAdmin();
-  }, []);
 
   useEffect(() => {
     setLoading(false);
@@ -122,7 +105,7 @@ function AppRoutes() {
         location={location}
       />
       {loading ? (
-        <div>Loading...</div>
+        <></>
       ) : (
         <Routes>
           {isAuthenticated ? (
@@ -138,7 +121,11 @@ function AppRoutes() {
                     path="/registerresident"
                     element={<RegisterResident />}
                   />
-                  <Route path="/managerlockers" element={<>Cenoura</>} />
+                  <Route path="/managerlockers" element={<ManageLockers />} />
+                  <Route
+                    path="/detailsmanagelockers"
+                    element={<ManageLockersDetails />}
+                  />
                 </>
               )}
               <Route path="*" element={<Navigate to="/" />} />

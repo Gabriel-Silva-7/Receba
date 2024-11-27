@@ -12,15 +12,17 @@ interface User {
   Nome: string;
   Endereco: string;
   Celular: string;
+  Imagem: string;
 }
 
 const Profile = () => {
   const [userHasImage] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { name, email } = useAuth();
+  const { name, email, userId } = useAuth();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
+  const [image, setImage] = useState<string | null>(null);
 
   const getProfileInfo = async () => {
     setLoading(true);
@@ -28,6 +30,7 @@ const Profile = () => {
       const response = await api.post('/userDetails', {
         email: email,
       });
+      console.log(response.data.userDetails[0]);
       setUser(response.data.userDetails[0]);
     } catch (error) {
       console.error('Error fetching profile info:', error);
@@ -45,6 +48,7 @@ const Profile = () => {
           cel: user?.Celular,
         })
         .then(() => {
+          sendNewImage();
           setOpen(true);
         });
     } catch (error) {
@@ -87,10 +91,18 @@ const Profile = () => {
     );
   }
 
+  const sendNewImage = async () => {
+    const response = await api.post('/saveuserimage', {
+      base64Image: image,
+      userId: userId,
+    });
+    console.log(response);
+  };
+
   return (
     <S.Container>
       <S.User>
-        {userHasImage ? <S.UserImg src={fotoTeste} /> : <S.LogoWrapper />}
+        {userHasImage ? <S.UserImg src={user?.Imagem} /> : <S.LogoWrapper />}
         <S.TextWrapper>
           <S.UserName>
             Olá, {(name && name.split(' ')[0]) || 'Usuário.'}!
@@ -148,6 +160,23 @@ const Profile = () => {
             id="phone"
             name="phone"
           />
+          <S.UploadButton>
+            <S.Label>Atualize a foto de perfil</S.Label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                    setImage(reader.result as string);
+                  };
+                  reader.readAsDataURL(file);
+                }
+              }}
+            />
+          </S.UploadButton>
         </S.FormGroup>
       </S.Form>
       <S.Button onClick={updateProfile}>Atualizar informações</S.Button>
