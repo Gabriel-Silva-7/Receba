@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from '../../assets/logomini.png';
 import * as S from './styles';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { api } from '../../config/api';
 import {
   faHouse,
   faBoxesStacked,
   faUser,
   faHandHoldingHeart,
   faRightFromBracket,
+  faUserGroup,
+  faKey,
   faX,
 } from '@fortawesome/free-solid-svg-icons';
 import fotoTeste from '../../assets/fototeste.svg';
@@ -29,7 +32,24 @@ const LateralMenu: React.FC<LateralMenuProps> = ({ isOpen, setMenuIsOpen }) => {
   const checkIsSelected = (path: string) => {
     return location.pathname === path;
   };
-  const { logout, name } = useAuth();
+  const { logout, email, name } = useAuth();
+  const [isAdmin, setIsAdmin] = React.useState(false);
+
+  const getIsAdmin = async () => {
+    try {
+      const response = await api.post('/verifyUserAdmin', {
+        email: email,
+      });
+      setIsAdmin(response.data.value);
+    } catch (error) {
+      console.error('Error verifying admin status:', error);
+      setIsAdmin(false);
+    }
+  };
+
+  useEffect(() => {
+    getIsAdmin();
+  }, []);
 
   return (
     <>
@@ -89,6 +109,37 @@ const LateralMenu: React.FC<LateralMenuProps> = ({ isOpen, setMenuIsOpen }) => {
           />
           Ajuda
         </S.MenuItem>
+        {isAdmin && (
+          <>
+            <S.MenuItem
+              isSelected={checkIsSelected('/registerResident')}
+              onClick={() => {
+                navigate('/registerResident');
+                if (window.innerWidth <= 768) setMenuIsOpen(false);
+              }}
+            >
+              <S.Icon
+                icon={faUserGroup}
+                isSelected={checkIsSelected('/registerResident')}
+              />
+              Cadastrar Morador
+            </S.MenuItem>
+            <S.MenuItem
+              isSelected={checkIsSelected('/managerLockers')}
+              onClick={() => {
+                navigate('/managerLockers');
+                if (window.innerWidth <= 768) setMenuIsOpen(false);
+              }}
+            >
+              <S.Icon
+                icon={faKey}
+                isSelected={checkIsSelected('/managerLockers')}
+              />
+              Controle de Lockers
+            </S.MenuItem>
+          </>
+        )}
+
         <S.User>
           {userHasImage ? <S.UserImg src={fotoTeste} /> : <S.LogoWrapper />}
           <S.UserName>{name}</S.UserName>
