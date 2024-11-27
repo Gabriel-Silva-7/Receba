@@ -5,20 +5,91 @@ import ClosedBox from '../../assets/ClosedBoxBig.png';
 import OpenBox from '../../assets/OpenBoxBig.png';
 import Checkbox from '@mui/material/Checkbox';
 import { api } from '../../config/api';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
+import { Box, Modal } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CloseIcon from '@mui/icons-material/Close';
 
 const PackageDetails = () => {
   const location = useLocation();
   const [awarenessChecked, setAwarenessChecked] = useState(false);
-  const { idLocker, recebido, retirado } = location.state || {};
+  const { idLocker, recebido, retirado, idHistorico } = location.state || {};
+  console.log(location.state);
+  const { userId, email } = useAuth();
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState([]);
+  console.log(data);
+
+  const verifyHistoryLocker = async () => {
+    try {
+      const response = await api.post('/getLockerHistory', {
+        email: email,
+      });
+      setData(response.data);
+      console.log(response.data);
+      const filteredData = response.data.filter(
+        (item: any) => item.IdHistorico === idHistorico
+      );
+      console.log(filteredData);
+    } catch (error) {
+      console.error('Error verifying locker:', error);
+    }
+  };
 
   const unlockLocker = async () => {
-    await api.post('/updateLocker', {
-      idLocker: idLocker,
-      status: 1,
-      idUser: '',
-    });
+    await api
+      .post('/updateLocker', {
+        idLocker: idLocker,
+        status: 1,
+        idUser: '',
+      })
+      .then(async () => {
+        await updateHistoryLocker();
+      });
   };
+
+  const updateHistoryLocker = async () => {
+    await api
+      .post('/updateLockerHistory', {
+        IdLocker: idLocker,
+        IdHistorico: idHistorico,
+        IdUsuario: userId,
+      })
+      .then(() => {
+        setOpen(true);
+      });
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    window.location.reload();
+  };
+
+  const modalStyle = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: `${window.innerWidth > 768 ? '45%' : '90%'}`,
+    height: '25%',
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: `${window.innerWidth > 768 ? 4 : 3}`,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    borderRadius: '16px',
+  };
+
+  useEffect(() => {
+    verifyHistoryLocker();
+  }, [location.state]);
+
+  useEffect(() => {
+    verifyHistoryLocker();
+  }, []);
 
   return (
     <S.Container>
@@ -95,6 +166,32 @@ const PackageDetails = () => {
           </S.LabelDescription>
         </S.TextWrapper>
       )}
+      <Modal open={open} onClose={handleClose}>
+        <Box sx={{ ...modalStyle }}>
+          <Box
+            position="absolute"
+            top={0}
+            right={0}
+            p={1}
+            sx={{ cursor: 'pointer' }}
+            onClick={handleClose}
+          >
+            <CloseIcon />
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flexDirection="column"
+            width={'80%'}
+          >
+            <CheckCircleIcon
+              style={{ color: 'green', fontSize: 50, marginBottom: 10 }}
+            />
+            <h2>O Seu locker sera desbloqueado em até 15 segundos.</h2>
+          </Box>
+        </Box>
+      </Modal>
     </S.Container>
   );
 };

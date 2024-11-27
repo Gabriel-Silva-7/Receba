@@ -5,6 +5,7 @@ interface DecodedToken {
   email: string;
   exp: number;
   nome: string;
+  userId: number;
 }
 
 interface AuthContextType {
@@ -14,6 +15,7 @@ interface AuthContextType {
   logout: () => void;
   email: string | undefined;
   name: string | undefined;
+  userId: number;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -26,6 +28,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem('token')
   );
+
+  const [email, setEmail] = useState<any>();
+  const [name, setName] = useState<any>();
+  const [userId, setUserId] = useState<any>();
   const decodedToken = token ? jwtDecode<DecodedToken>(token) : null;
 
   const initialAuthState = () => {
@@ -34,6 +40,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         if (decodedToken && decodedToken.exp) {
           setEmail(decodedToken?.email);
           setName(decodedToken?.nome);
+          setUserId(decodedToken?.userId);
           const expirationDate = new Date(decodedToken.exp * 1000);
           if (expirationDate <= new Date()) {
             logout();
@@ -53,14 +60,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] =
     useState<boolean>(initialAuthState);
 
-  const [email, setEmail] = useState<any>();
-  const [name, setName] = useState<any>();
-
   useEffect(() => {
     if (token && decodedToken) {
       try {
         setEmail(decodedToken?.email);
         setName(decodedToken?.nome);
+        setUserId(decodedToken?.userId);
         if (decodedToken.exp) {
           const expirationDate = new Date(decodedToken.exp * 1000);
           if (expirationDate <= new Date()) {
@@ -89,7 +94,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, token, login, logout, email, name }}
+      value={{ isAuthenticated, token, login, logout, email, name, userId }}
     >
       {children}
     </AuthContext.Provider>

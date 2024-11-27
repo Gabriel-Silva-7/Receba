@@ -85,6 +85,7 @@ const HomeLoggedIn = () => {
                   onClick={() =>
                     navigate('/packagedetails', {
                       state: {
+                        idHistorico: e.IdHistorico,
                         idLocker: e.IdLocker,
                         recebido: e.DataHoraEntrega,
                         retirado: e.DataHoraRetirada,

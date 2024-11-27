@@ -20,10 +20,12 @@ const MyPackages = () => {
         email: email,
       });
       setData(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error('Error verifying locker:', error);
     }
   };
+  console.log(data);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,6 +51,7 @@ const MyPackages = () => {
                 onClick={() =>
                   navigate('/packagedetails', {
                     state: {
+                      idHistorico: e.IdHistorico,
                       idLocker: e.IdLocker,
                       recebido: e.DataHoraEntrega,
                       retirado: e.DataHoraRetirada,
