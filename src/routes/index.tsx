@@ -23,6 +23,7 @@ import HeaderDesktop from '../components/HeaderDesktopLogged';
 import Profile from '../pages/Profile';
 import NewPackage from '../pages/NewPackage';
 import Help from '../pages/Help';
+import { api } from '../config/api';
 
 const ConditionalNavBar = ({
   loggedIn,
@@ -86,6 +87,24 @@ function AppRoutes() {
   const { isAuthenticated, token } = useAuth();
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const { email } = useAuth();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const getIsAdmin = async () => {
+    try {
+      const response = await api.post('/verifyUserAdmin', {
+        email: email,
+      });
+      setIsAdmin(response.data.value);
+    } catch (error) {
+      console.error('Error verifying admin status:', error);
+      setIsAdmin(false);
+    }
+  };
+
+  useEffect(() => {
+    getIsAdmin();
+  }, []);
 
   useEffect(() => {
     setLoading(false);
@@ -112,6 +131,12 @@ function AppRoutes() {
               <Route path="/packagedetails" element={<PackageDetails />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/help" element={<Help />} />
+              {isAdmin && (
+                <>
+                  <Route path="/registerresident" element={<>Batata</>} />
+                  <Route path="/managerlockers" element={<>Cenoura</>} />
+                </>
+              )}
               <Route path="*" element={<Navigate to="/" />} />
             </>
           ) : (
