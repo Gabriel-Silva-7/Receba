@@ -126,3 +126,11 @@ export const ButtonWrapper = styled.div`
   align-items: center;
   width: 100%;
 `;
+
+export const LoadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+`;

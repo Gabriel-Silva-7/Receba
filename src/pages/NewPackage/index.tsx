@@ -189,12 +189,19 @@ const NewPackage = () => {
                 }}
                 value={apartment}
               />
+              {!lockerNotBusy?.IdLocker && (
+                <S.ErrorMessage>
+                  Não há lockers disponíveis no momento. Por favor, tente
+                  novamente mais tarde.
+                </S.ErrorMessage>
+              )}
             </S.InputWrapper>
             <S.ButtonNext
               disabled={
                 !(apartment.value?.length >= 1) ||
                 !(block.value?.length >= 1) ||
-                !(size.value?.length >= 1)
+                !(size.value?.length >= 1) ||
+                !lockerNotBusy?.IdLocker
               }
               onClick={nextStep}
             >
@@ -268,8 +275,8 @@ const NewPackage = () => {
             <S.TextWrapper>
               <S.Title>Passo 3.</S.Title>
               <S.Description>
-                Para sua segurança e de quem recebe,anexe uma foto da encomenda
-                no locker e finalize a entrega fechando a portado locker
+                Para sua segurança e de quem recebe, anexe uma foto da encomenda
+                no locker e finalize a entrega fechando a porta do locker
                 indicado.
               </S.Description>
             </S.TextWrapper>

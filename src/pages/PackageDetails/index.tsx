@@ -7,18 +7,21 @@ import Checkbox from '@mui/material/Checkbox';
 import { api } from '../../config/api';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { Box, Modal } from '@mui/material';
+import { Box, CircularProgress, Modal } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
 
 const PackageDetails = () => {
   const location = useLocation();
   const [awarenessChecked, setAwarenessChecked] = useState(false);
-  const { idLocker, recebido, retirado, idHistorico } = location.state || {};
+  const { idLocker, idHistorico } = location.state || {};
   console.log(location.state);
   const { userId, email } = useAuth();
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
+  const [retirado, setRetirado] = useState<any>([]);
+  const [recebido, setRecebido] = useState<any>([]);
+  const [loading, setLoading] = useState(true);
   console.log(data);
 
   const verifyHistoryLocker = async () => {
@@ -26,12 +29,16 @@ const PackageDetails = () => {
       const response = await api.post('/getLockerHistory', {
         email: email,
       });
+      setLoading(true);
       setData(response.data);
       console.log(response.data);
       const filteredData = response.data.filter(
         (item: any) => item.IdHistorico === idHistorico
       );
+      setRetirado(filteredData[0].DataHoraRetirada);
+      setRecebido(filteredData[0].DataHoraEntrega);
       console.log(filteredData);
+      setLoading(false);
     } catch (error) {
       console.error('Error verifying locker:', error);
     }
@@ -90,6 +97,18 @@ const PackageDetails = () => {
   useEffect(() => {
     verifyHistoryLocker();
   }, []);
+
+  if (loading)
+    return (
+      <S.Container>
+        {window.screen.width < 768 && (
+          <HeaderMobile title="Retirar Encomenda" />
+        )}
+        <S.LoadingContainer>
+          <CircularProgress />
+        </S.LoadingContainer>
+      </S.Container>
+    );
 
   return (
     <S.Container>
@@ -188,7 +207,7 @@ const PackageDetails = () => {
             <CheckCircleIcon
               style={{ color: 'green', fontSize: 50, marginBottom: 10 }}
             />
-            <h2>O Seu locker sera desbloqueado em até 15 segundos.</h2>
+            <h2>Seu locker será desbloqueado em até 15 segundos.</h2>
           </Box>
         </Box>
       </Modal>

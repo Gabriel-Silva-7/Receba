@@ -5,7 +5,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: calc(100vh + 20%);
+  height: calc(100vh + 100px);
 `;
 
 export const ImgWrapper = styled.div`
@@ -169,4 +169,13 @@ export const LoadingContainer = styled.div`
   justify-content: center;
   width: 100vw;
   height: 100vh;
+`;
+
+export const ErrorMessage = styled.span`
+  color: #ff0000;
+  font-family: Poppins;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 `;
