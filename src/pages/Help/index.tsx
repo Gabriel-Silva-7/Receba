@@ -13,22 +13,41 @@ const Help = () => {
 
   const handleSubmit = () => {
     setLoading(true);
-    api
-      .post('/createHelp', {
-        idUsuario: userId,
-        telefone: telefone,
-        email: email,
-        assunto: assunto,
-        mensagem: mensagem,
-      })
-      .then(() => {
-        setLoading(false);
-        alert('Ticket enviado com sucesso!');
-        window.location.reload();
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    if (userId) {
+      api
+        .post('/createHelp', {
+          idUsuario: userId,
+          telefone: telefone,
+          email: email,
+          assunto: assunto,
+          mensagem: mensagem,
+        })
+        .then(() => {
+          setLoading(false);
+          alert('Ticket enviado com sucesso!');
+          window.location.reload();
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      api
+        .post('/createHelp', {
+          idUsuario: null,
+          telefone: telefone,
+          email: email,
+          assunto: assunto,
+          mensagem: mensagem,
+        })
+        .then(() => {
+          setLoading(false);
+          alert('Ticket enviado com sucesso!');
+          window.location.reload();
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   };
 
   return (

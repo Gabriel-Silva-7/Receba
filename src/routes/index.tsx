@@ -26,6 +26,7 @@ import Help from '../pages/Help';
 import ManageLockers from '../pages/ManageLockers';
 import ManageLockersDetails from '../pages/ManageLockersDetails';
 import RegisterResident from '../pages/RegisterResident';
+import About from '../pages/About';
 
 const ConditionalNavBar = ({
   loggedIn,
@@ -114,7 +115,6 @@ function AppRoutes() {
               <Route path="/mypackages" element={<MyPackages />} />
               <Route path="/packagedetails" element={<PackageDetails />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/help" element={<Help />} />
               {isAdmin && (
                 <>
                   <Route
@@ -133,8 +133,7 @@ function AppRoutes() {
           ) : (
             <>
               <Route path="/" element={<Home />} />
-              <Route path="/about" element={<div />} />
-              <Route path="/contact" element={<div />} />
+              <Route path="/about" element={<About />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Signup />} />
               <Route path="/products" element={<ProductPage />} />
@@ -142,6 +141,7 @@ function AppRoutes() {
               <Route path="*" element={<Navigate to="/" />} />
             </>
           )}
+          <Route path="/help" element={<Help />} />
         </Routes>
       )}
     </>

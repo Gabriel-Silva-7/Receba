@@ -46,12 +46,11 @@ const HamburgerMenu: React.FC = () => {
       </SingInSignUpWrapper>
       <Menu open={open}>
         <MenuItem href="/">Home</MenuItem>
-        <MenuItem href="/about">About</MenuItem>
-        <MenuItem href="/contact">Contact</MenuItem>
-        <MenuItem href="/products">Products</MenuItem>
-        <MenuItem href="/help">Help</MenuItem>
+        <MenuItem href="/about">Sobre</MenuItem>
+        <MenuItem href="/products">Produtos</MenuItem>
+        <MenuItem href="/help">Ajuda</MenuItem>
         <MenuItem href="/login">Login</MenuItem>
-        <MenuItem href="/register">Register</MenuItem>
+        <MenuItem href="/register">Cadastre-se</MenuItem>
       </Menu>
     </Container>
   );
