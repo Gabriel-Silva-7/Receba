@@ -21,7 +21,7 @@ const Help = () => {
         assunto: assunto,
         mensagem: mensagem,
       })
-      .then(response => {
+      .then(() => {
         setLoading(false);
         alert('Ticket enviado com sucesso!');
         window.location.reload();
