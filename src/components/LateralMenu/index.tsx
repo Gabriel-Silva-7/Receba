@@ -112,15 +112,15 @@ const LateralMenu: React.FC<LateralMenuProps> = ({ isOpen, setMenuIsOpen }) => {
         {isAdmin && (
           <>
             <S.MenuItem
-              isSelected={checkIsSelected('/registerResident')}
+              isSelected={checkIsSelected('/registerresident')}
               onClick={() => {
-                navigate('/registerResident');
+                navigate('/registerresident');
                 if (window.innerWidth <= 768) setMenuIsOpen(false);
               }}
             >
               <S.Icon
                 icon={faUserGroup}
-                isSelected={checkIsSelected('/registerResident')}
+                isSelected={checkIsSelected('/registerresident')}
               />
               Cadastrar Morador
             </S.MenuItem>

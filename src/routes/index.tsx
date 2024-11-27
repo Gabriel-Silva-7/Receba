@@ -24,6 +24,7 @@ import Profile from '../pages/Profile';
 import NewPackage from '../pages/NewPackage';
 import Help from '../pages/Help';
 import { api } from '../config/api';
+import RegisterResident from '../pages/RegisterResident';
 
 const ConditionalNavBar = ({
   loggedIn,
@@ -133,7 +134,10 @@ function AppRoutes() {
               <Route path="/help" element={<Help />} />
               {isAdmin && (
                 <>
-                  <Route path="/registerresident" element={<>Batata</>} />
+                  <Route
+                    path="/registerresident"
+                    element={<RegisterResident />}
+                  />
                   <Route path="/managerlockers" element={<>Cenoura</>} />
                 </>
               )}
