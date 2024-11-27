@@ -25,6 +25,7 @@ import NewPackage from '../pages/NewPackage';
 import Help from '../pages/Help';
 import { api } from '../config/api';
 import RegisterResident from '../pages/RegisterResident';
+import About from '../pages/About';
 
 const ConditionalNavBar = ({
   loggedIn,
@@ -146,7 +147,7 @@ function AppRoutes() {
           ) : (
             <>
               <Route path="/" element={<Home />} />
-              <Route path="/about" element={<div />} />
+              <Route path="/about" element={<About />} />
               <Route path="/contact" element={<div />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Signup />} />
