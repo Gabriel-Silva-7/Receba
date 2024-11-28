@@ -82,6 +82,7 @@ export const PackageWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   width: 32%;
+  cursor: pointer;
 `;
 
 export const Divider = styled.div`
@@ -130,6 +131,7 @@ export const MyPackages = styled.div`
   filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.05));
   border-radius: 24px;
   background: #fff;
+  cursor: pointer;
 
   display: flex;
   padding: 24px;
@@ -182,6 +184,7 @@ export const NeedHelp = styled.div`
   filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.05));
   border-radius: 24px;
   background: #fff;
+  cursor: pointer;
 
   display: flex;
   padding: 24px;

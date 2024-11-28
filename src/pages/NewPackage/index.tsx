@@ -28,8 +28,7 @@ const NewPackage = () => {
   const [step, setStep] = useState(1);
   const [userId, setUserId] = useState<any>();
   const [loading, setLoading] = useState(false);
-
-  console.log(lockerNotBusy);
+  const [historyId, setHistoryId] = useState<any>();
 
   const getBlocks = async () => {
     const response = await api.post('/getBlock', {
@@ -64,14 +63,19 @@ const NewPackage = () => {
   };
 
   const getLockerNotBusy = async () => {
+    setLoading(true);
     const response = await api.post('/getLockerNotBusy', {
       idCondominio: idCondominio,
       tamanho: size.value,
     });
-    setLockerNotBusy(response.data.lockersNotBusy[0]);
+    if (response.data.lockersNotBusy.length === 0) {
+      setLockerNotBusy(response.data.lockersNotBusy[0]);
+    }
+    setLoading(false);
   };
 
   const OpenLocker = async () => {
+    console.log('Abrindo locker');
     setLoading(true);
     await api
       .post('/updateLocker', {
@@ -93,6 +97,7 @@ const NewPackage = () => {
 
   const CloseLocker = async () => {
     setLoading(true);
+    console.log('Fechando locker');
     await api
       .post('/updateLocker', {
         idLocker: lockerNotBusy.IdLocker,
@@ -118,12 +123,27 @@ const NewPackage = () => {
         IdUsuario: userId,
       })
       .then(response => {
-        console.log(response);
+        setHistoryId(response.data[0].IdHistorico);
         console.log('Histórico criado');
       })
       .catch(error => {
         console.log(error);
       });
+  };
+
+  const getFaseLockerAndLock = async () => {
+    const response = await api
+      .post('/getFaseLocker', {
+        IdHistorico: historyId,
+      })
+      .then(response => {
+        response?.data?.Fase === 'Entrega' && CloseLocker();
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    return response;
   };
 
   const nextStep = () => {
@@ -191,12 +211,13 @@ const NewPackage = () => {
                 }}
                 value={apartment}
               />
-              {!lockerNotBusy?.IdLocker && (
-                <S.ErrorMessage>
-                  Não há lockers disponíveis no momento. Por favor, tente
-                  novamente mais tarde.
-                </S.ErrorMessage>
-              )}
+              {(!loading && !(size.value?.length >= 1)) ||
+                (!lockerNotBusy?.IdLocker && (
+                  <S.ErrorMessage>
+                    Não há lockers disponíveis no momento. Por favor, tente
+                    novamente mais tarde.
+                  </S.ErrorMessage>
+                ))}
             </S.InputWrapper>
             <S.ButtonNext
               disabled={
@@ -309,7 +330,12 @@ const NewPackage = () => {
                 }
               />
             </S.InputWrapper>
-            <S.ButtonLock disabled={!deliveryChecked} onClick={CloseLocker}>
+            <S.ButtonLock
+              disabled={!deliveryChecked}
+              onClick={async () => {
+                await getFaseLockerAndLock();
+              }}
+            >
               Finalizar entrega{' '}
               <svg
                 width="24"
