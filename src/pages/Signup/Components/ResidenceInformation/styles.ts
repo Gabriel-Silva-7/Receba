@@ -37,7 +37,7 @@ export const StyledButton = styled.button`
   justify-content: center;
   align-items: center;
   border-radius: 32px;
-  opacity: 0.25;
+  opacity: 1;
   background: #111;
   color: #fff;
   text-align: center;
@@ -48,10 +48,6 @@ export const StyledButton = styled.button`
   line-height: normal;
   cursor: pointer;
   margin-top: 16px;
-
-  &:hover {
-    opacity: 1;
-  }
 `;
 
 export const StyledBackButton = styled.button`
@@ -60,7 +56,7 @@ export const StyledBackButton = styled.button`
   justify-content: center;
   align-items: center;
   border-radius: 32px;
-  opacity: 0.25;
+  opacity: 1;
   background: #111;
   color: #fff;
   text-align: center;
@@ -70,10 +66,6 @@ export const StyledBackButton = styled.button`
   font-weight: 400;
   line-height: normal;
   cursor: pointer;
-
-  &:hover {
-    opacity: 1;
-  }
 `;
 
 export const StyledCheckbox = styled(Checkbox)`
