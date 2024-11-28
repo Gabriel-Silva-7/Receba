@@ -95,9 +95,9 @@ const Signup: React.FC = () => {
     setActiveStep(2);
   };
 
-  const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
-  };
+  // const handleNext = () => {
+  //   setActiveStep(prevActiveStep => prevActiveStep + 1);
+  // };
 
   const handleBack = () => {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
@@ -105,7 +105,7 @@ const Signup: React.FC = () => {
 
   const storeLoginData = (data: any) => {
     setLoginData(data);
-    handleNext();
+    setActiveStep(1);
   };
 
   console.log(activeStep);
