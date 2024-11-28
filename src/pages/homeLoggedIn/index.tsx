@@ -17,19 +17,6 @@ const HomeLoggedIn = () => {
   const [lastPackages, setLastPackages] = useState([]);
   const [user, setUser] = useState<any>({});
   const [imgLoading, setImgLoading] = useState(true);
-  console.log(userHasImage, 'userHasImage');
-  console.log(imgLoading, 'imgLoading');
-
-  const verifyLocker = async () => {
-    try {
-      await api.post('/verifyLocker', {
-        idLocker: 1,
-        fdCurso: 0,
-      });
-    } catch (error) {
-      console.error('Error verifying locker:', error);
-    }
-  };
 
   const getProfileInfo = async () => {
     setLoading(true);
@@ -68,7 +55,6 @@ const HomeLoggedIn = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      await verifyLocker();
       await getLast3Packages();
       setLoading(false);
     };
