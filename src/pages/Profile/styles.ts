@@ -32,11 +32,11 @@ export const LogoWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
+  width: 130px;
   height: 100px;
   background-color: #d9d9d9;
   border-radius: 50%;
-  margin-right: 35px;
+  margin-right: 15px;
 `;
 
 export const UserName = styled.span`

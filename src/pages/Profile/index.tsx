@@ -15,7 +15,6 @@ interface User {
 }
 
 const Profile = () => {
-  const [userHasImage] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { name, email, userId } = useAuth();
   const [user, setUser] = useState<User | null>(null);
@@ -101,7 +100,7 @@ const Profile = () => {
   return (
     <S.Container>
       <S.User>
-        {userHasImage ? <S.UserImg src={user?.Imagem} /> : <S.LogoWrapper />}
+        {user?.Imagem ? <S.UserImg src={user?.Imagem} /> : <S.LogoWrapper />}
         <S.TextWrapper>
           <S.UserName>
             Olá, {(name && name.split(' ')[0]) || 'Usuário.'}!
