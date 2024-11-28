@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const HeaderContainer = styled.header`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 10px 20px;
   background: #f5f5f5;
 `;
@@ -24,9 +24,9 @@ const MenuButton = styled.button`
 `;
 
 const Title = styled.h3`
-  margin: 0;
-  flex-grow: 1;
+  margin: 0 auto;
   text-align: center;
+  cursor: pointer;
 `;
 
 const HeaderMobile = ({

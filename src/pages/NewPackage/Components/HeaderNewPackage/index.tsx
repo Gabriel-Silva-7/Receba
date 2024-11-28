@@ -13,6 +13,7 @@ const HeaderMobile = ({
   };
 
   if (step === 1) return null;
+  if (step === 4) return null;
 
   return (
     <HeaderContainer>

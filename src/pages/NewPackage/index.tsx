@@ -28,8 +28,7 @@ const NewPackage = () => {
   const [step, setStep] = useState(1);
   const [userId, setUserId] = useState<any>();
   const [loading, setLoading] = useState(false);
-
-  console.log(lockerNotBusy);
+  const [historyId, setHistoryId] = useState<any>();
 
   const getBlocks = async () => {
     const response = await api.post('/getBlock', {
@@ -64,14 +63,18 @@ const NewPackage = () => {
   };
 
   const getLockerNotBusy = async () => {
+    setLoading(true);
     const response = await api.post('/getLockerNotBusy', {
       idCondominio: idCondominio,
       tamanho: size.value,
     });
+    console.log(response.data.lockersNotBusy[0]);
     setLockerNotBusy(response.data.lockersNotBusy[0]);
+    setLoading(false);
   };
 
   const OpenLocker = async () => {
+    console.log('Abrindo locker');
     setLoading(true);
     await api
       .post('/updateLocker', {
@@ -93,6 +96,7 @@ const NewPackage = () => {
 
   const CloseLocker = async () => {
     setLoading(true);
+    console.log('Fechando locker');
     await api
       .post('/updateLocker', {
         idLocker: lockerNotBusy.IdLocker,
@@ -118,12 +122,27 @@ const NewPackage = () => {
         IdUsuario: userId,
       })
       .then(response => {
-        console.log(response);
+        setHistoryId(response.data[0].IdHistorico);
         console.log('Histórico criado');
       })
       .catch(error => {
         console.log(error);
       });
+  };
+
+  const getFaseLockerAndLock = async () => {
+    const response = await api
+      .post('/getFaseLocker', {
+        IdHistorico: historyId,
+      })
+      .then(response => {
+        response?.data?.Fase === 'Entrega' ? CloseLocker() : nextStep();
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    return response;
   };
 
   const nextStep = () => {
@@ -191,12 +210,13 @@ const NewPackage = () => {
                 }}
                 value={apartment}
               />
-              {!lockerNotBusy?.IdLocker && (
-                <S.ErrorMessage>
-                  Não há lockers disponíveis no momento. Por favor, tente
-                  novamente mais tarde.
-                </S.ErrorMessage>
-              )}
+              {(!loading && !(size.value?.length >= 1)) ||
+                (!lockerNotBusy?.IdLocker && (
+                  <S.ErrorMessage>
+                    Não há lockers disponíveis no momento. Por favor, tente
+                    novamente mais tarde.
+                  </S.ErrorMessage>
+                ))}
             </S.InputWrapper>
             <S.ButtonNext
               disabled={
@@ -309,7 +329,12 @@ const NewPackage = () => {
                 }
               />
             </S.InputWrapper>
-            <S.ButtonLock disabled={!deliveryChecked} onClick={CloseLocker}>
+            <S.ButtonLock
+              disabled={!deliveryChecked}
+              onClick={async () => {
+                await getFaseLockerAndLock();
+              }}
+            >
               Finalizar entrega{' '}
               <svg
                 width="24"
@@ -328,11 +353,35 @@ const NewPackage = () => {
         );
       case 4:
         return (
-          <div>
-            <p>Aguarde o locker travar a porta e pronto.</p>
-            Obrigado por utilizar o Receba! Sua entrega foi realizada com
-            sucesso.
-          </div>
+          <S.SucessMessageWrapper>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="170"
+              height="170"
+              viewBox="0 0 170 170"
+              fill="none"
+            >
+              <g clip-path="url(#clip0_304_1684)">
+                <path
+                  d="M85 170C107.543 170 129.163 161.045 145.104 145.104C161.045 129.163 170 107.543 170 85C170 62.4566 161.045 40.8365 145.104 24.8959C129.163 8.95533 107.543 0 85 0C62.4566 0 40.8365 8.95533 24.8959 24.8959C8.95533 40.8365 0 62.4566 0 85C0 107.543 8.95533 129.163 24.8959 145.104C40.8365 161.045 62.4566 170 85 170ZM122.52 69.3945L80.0195 111.895C76.8984 115.016 71.8516 115.016 68.7637 111.895L47.5137 90.6445C44.3926 87.5234 44.3926 82.4766 47.5137 79.3887C50.6348 76.3008 55.6816 76.2676 58.7695 79.3887L74.375 94.9941L111.23 58.1055C114.352 54.9844 119.398 54.9844 122.486 58.1055C125.574 61.2266 125.607 66.2734 122.486 69.3613L122.52 69.3945Z"
+                  fill="#0B851D"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_304_1684">
+                  <rect width="170" height="170" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+            <S.TitleSucess>Pronto!</S.TitleSucess>
+            <S.DescriptionSucess>
+              Confira se o locker está fechado e pronto: entrega finalizada!
+              Obrigado por utilizar nossos serviços. Até a próxima!
+            </S.DescriptionSucess>
+            <S.NewDeliveryButton onClick={() => window.location.reload()}>
+              Realizar nova entrega
+            </S.NewDeliveryButton>
+          </S.SucessMessageWrapper>
         );
       default:
         return null;
@@ -350,9 +399,11 @@ const NewPackage = () => {
   return (
     <S.Container>
       <HeaderMobile setStep={setStep} step={step} />
-      <S.ImgWrapper>
-        <S.Img src={logo} alt="FastBox" />
-      </S.ImgWrapper>
+      {step !== 4 && (
+        <S.ImgWrapper>
+          <S.Img src={logo} alt="FastBox" />
+        </S.ImgWrapper>
+      )}
       {renderStep()}
     </S.Container>
   );

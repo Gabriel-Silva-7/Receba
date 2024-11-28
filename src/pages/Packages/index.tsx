@@ -7,6 +7,7 @@ import { api } from '../../config/api';
 import { useAuth } from '../../context/AuthContext';
 import { useEffect, useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
+import boxBlue from '../../assets/boxblue.png';
 
 const MyPackages = () => {
   const navigate = useNavigate();
@@ -34,6 +35,24 @@ const MyPackages = () => {
     };
     fetchData();
   }, []);
+
+  console.log(data);
+
+  if (data.length === 0 && !loading) {
+    return (
+      <S.Container>
+        {window.screen.width < 768 && (
+          <HeaderMobile title="Minhas Encomendas" />
+        )}
+        <S.NoPackageWrapper>
+          <S.NoPackageImg src={boxBlue} />
+          <S.NoPackageText>
+            Hmm... parece que você ainda não tem nenhuma encomenda por aqui.
+          </S.NoPackageText>
+        </S.NoPackageWrapper>
+      </S.Container>
+    );
+  }
 
   return (
     <S.Container>

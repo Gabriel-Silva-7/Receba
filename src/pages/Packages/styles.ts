@@ -92,3 +92,29 @@ export const LoadingContainer = styled.div`
   align-items: center;
   height: 100vh;
 `;
+
+export const NoPackageImg = styled.img`
+  width: 223px;
+  height: 223px;
+`;
+
+export const NoPackageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 80vh;
+  gap: 32px;
+`;
+
+export const NoPackageText = styled.span`
+  color: #333;
+  text-align: center;
+  font-family: Roboto;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  width: 90%;
+`;
