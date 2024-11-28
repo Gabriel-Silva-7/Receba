@@ -49,12 +49,14 @@ const HomeLoggedIn = () => {
   };
 
   const getLast3Packages = async () => {
+    setLoading(true);
     await api
       .post('/getLastLockerHistory', {
         email: email,
       })
       .then(response => {
         setLastPackages(response.data.getLastHistory);
+        setLoading(false);
       })
       .catch(error => {
         console.error('Error getting last packages:', error);
@@ -169,7 +171,7 @@ const HomeLoggedIn = () => {
               </>
             );
           })}
-          {lastPackages.length === 0 && (
+          {lastPackages.length === 0 && !loading && (
             <S.NoPackages>
               <img
                 src="https://media.tenor.com/EMbleniyh5sAAAAi/jorrbox-jorrparivar.gif"
