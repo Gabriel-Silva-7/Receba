@@ -129,3 +129,11 @@ export const FormGroup = styled.div`
   width: 85%;
   margin-bottom: 20px;
 `;
+
+export const LoadingContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+`;

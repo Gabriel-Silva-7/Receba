@@ -154,7 +154,14 @@ const LateralMenu: React.FC<LateralMenuProps> = ({ isOpen, setMenuIsOpen }) => {
 
         <S.User>
           {image ? <S.UserImg src={image} /> : <S.LogoWrapper />}
-          <S.UserName>{name}</S.UserName>
+          <S.UserName
+            onClick={() => {
+              navigate('/profile');
+              if (window.innerWidth <= 768) setMenuIsOpen(false);
+            }}
+          >
+            {name}
+          </S.UserName>
           <S.LogoutButton onClick={() => logout()}>
             <S.LogoutIcon icon={faRightFromBracket} />
           </S.LogoutButton>
