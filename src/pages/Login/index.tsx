@@ -107,19 +107,11 @@ const Login: React.FC = () => {
         </S.FormGroup>
         <S.TermsAndConditions>
           Para continuar, você aceita os{' '}
-          <a
-            href="../../../public/Terms.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="/Terms.pdf" target="_blank" rel="noopener noreferrer">
             Termos de uso
           </a>{' '}
           e{' '}
-          <a
-            href="../../../public/Policy.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="/Policy.pdf" target="_blank" rel="noopener noreferrer">
             Politica de Privacidade
           </a>
           .
