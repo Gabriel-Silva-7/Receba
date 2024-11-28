@@ -216,3 +216,15 @@ export const LoadingContainer = styled.div`
   height: 100vh;
   background: #f5f5f5;
 `;
+
+export const NoPackages = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+
+export const NoPackageText = styled.span`
+  width: 50%;
+`;

@@ -169,6 +169,17 @@ const HomeLoggedIn = () => {
               </>
             );
           })}
+          {lastPackages.length === 0 && (
+            <S.NoPackages>
+              <img
+                src="https://media.tenor.com/EMbleniyh5sAAAAi/jorrbox-jorrparivar.gif"
+                alt=""
+              />
+              <S.NoPackageText>
+                Você ainda não possui encomendas registradas.
+              </S.NoPackageText>
+            </S.NoPackages>
+          )}
         </S.LastPackagesWrapper>
       </S.LastPackages>
 

@@ -179,3 +179,48 @@ export const ErrorMessage = styled.span`
   font-weight: 400;
   line-height: normal;
 `;
+
+export const SucessMessageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  margin-top: 90px;
+`;
+
+export const TitleSucess = styled.span`
+  color: #000;
+  font-family: Poppins;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-top: 38px;
+`;
+
+export const DescriptionSucess = styled.span`
+  color: #000;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  width: 90%;
+  margin-top: 39px;
+`;
+
+export const NewDeliveryButton = styled.button`
+  border-radius: 8px;
+  background: #4182f9;
+  width: 60%;
+  height: 62px;
+  border: none;
+  color: #fff;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: 50px;
+`;
