@@ -29,6 +29,9 @@ const NewPackage = () => {
   const [userId, setUserId] = useState<any>();
   const [loading, setLoading] = useState(false);
   const [historyId, setHistoryId] = useState<any>();
+  // const [email, setEmail] = useState('');
+
+  console.log(userId);
 
   const getBlocks = async () => {
     const response = await api.post('/getBlock', {
@@ -60,6 +63,7 @@ const NewPackage = () => {
       idApartment: apartment.value,
     });
     setUserId(response?.data[0]?.IdUsuario);
+    // setEmail(response?.data[0]?.Email);
   };
 
   const getLockerNotBusy = async () => {
@@ -115,6 +119,14 @@ const NewPackage = () => {
       });
   };
 
+  // const SendEmail = async () => {
+  //   await api.post('/sendEmail', {
+  //     to: email,
+  //     subject: 'Nova encomenda aguardando retirada',
+  //     text: 'Olá! Sua encomenda está disponível para retirada no locker. Acesse o Receba! para mais informações.',
+  //   });
+  // };
+
   const CreateLockerHistory = async () => {
     await api
       .post('/createLockerHistory', {
@@ -123,6 +135,7 @@ const NewPackage = () => {
       })
       .then(response => {
         setHistoryId(response.data[0].IdHistorico);
+        // SendEmail();
         console.log('Histórico criado');
       })
       .catch(error => {

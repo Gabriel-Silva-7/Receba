@@ -3,13 +3,18 @@ import * as S from './styles';
 import condominio from '../../assets/condominio.jpg';
 import { useLocation } from 'react-router-dom';
 import { api } from '../../config/api';
+import { Box, Modal } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CloseIcon from '@mui/icons-material/Close';
 
 const ManageLockersDetails = () => {
   const [userHasImage] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [textReturn, setTextReturn] = useState('');
+  const [textDescription, setTextDescription] = useState('');
 
   const location = useLocation();
   const { locker } = location.state;
-  console.log(locker);
 
   const unlockLocker = async () => {
     await api
@@ -19,9 +24,13 @@ const ManageLockersDetails = () => {
         idUser: '',
       })
       .then(async response => {
+        setOpen(true);
+        setTextReturn('Locker abrindo...');
+        setTextDescription('O locker será aberto em até 15 segundos');
         console.log(response.data);
       });
   };
+
   const lockLocker = async () => {
     await api
       .post('/updateLocker', {
@@ -30,12 +39,62 @@ const ManageLockersDetails = () => {
         idUser: '',
       })
       .then(async response => {
+        setOpen(true);
+        setTextReturn('Locker fechando...');
+        setTextDescription('O locker será trancado em até 15 segundos!');
         console.log(response.data);
       });
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const modalStyle = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: `${window.innerWidth > 768 ? '45%' : '90%'}`,
+    height: '25%',
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: `${window.innerWidth > 768 ? 4 : 3}`,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    borderRadius: '16px',
+  };
+
   return (
     <S.Container>
+      <Modal open={open} onClose={handleClose}>
+        <Box sx={{ ...modalStyle }}>
+          <Box
+            position="absolute"
+            top={0}
+            right={0}
+            p={1}
+            sx={{ cursor: 'pointer' }}
+            onClick={handleClose}
+          >
+            <CloseIcon />
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flexDirection="column"
+          >
+            <CheckCircleIcon
+              style={{ color: 'green', fontSize: 50, marginBottom: 10 }}
+            />
+            <h2>{textReturn}</h2>
+            <p>{textDescription}</p>
+          </Box>
+        </Box>
+      </Modal>
       <S.User>
         {userHasImage ? <S.UserImg src={condominio} /> : <S.LogoWrapper />}
         <S.UserName>{locker?.Condominio || 'Condominio.'}</S.UserName>

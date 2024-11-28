@@ -153,7 +153,7 @@ const PackageDetails = () => {
                 onChange={e => setAwarenessChecked(e.target.checked)}
               />
               <label htmlFor="awareness">
-                Estou ciente que após desbloquear o locker terei um prazo de 5
+                Estou ciente que após desbloquear o locker terei um prazo de 2
                 minutos para retirada da encomenda.
               </label>
             </S.WrapperCheckbox>
