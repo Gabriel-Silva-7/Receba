@@ -17,7 +17,16 @@ const BasicInfoForm: React.FC<{
   initialData?: any;
   setUserInfo: any;
   userInfo: any;
-}> = ({ onSubmit, backStep, initialData, setUserInfo }) => {
+  setIsLoading: (value: boolean) => void;
+  isLoading: boolean;
+}> = ({
+  onSubmit,
+  backStep,
+  initialData,
+  setUserInfo,
+  isLoading,
+  setIsLoading,
+}) => {
   const {
     handleSubmit,
     control,
@@ -59,32 +68,6 @@ const BasicInfoForm: React.FC<{
           />
         )}
       />
-      {/* <Controller
-        name="date"
-        control={control}
-        defaultValue={null}
-        rules={{ required: 'Data é obrigatória' }}
-        render={({ field }) => (
-          <InputMask
-            mask="99/99/9999"
-            value={field.value}
-            onChange={field.onChange}
-            onBlur={field.onBlur}
-          >
-            {() => (
-              <StyledTextField
-                {...field}
-                inputRef={field.ref}
-                label="Data de Nascimento *"
-                variant="outlined"
-                fullWidth
-                error={!!errors.date}
-                helperText={errors.date ? String(errors.date.message) : ''}
-              />
-            )}
-          </InputMask>
-        )}
-      /> */}
       <Controller
         name="cpf"
         control={control}
@@ -300,7 +283,17 @@ const BasicInfoForm: React.FC<{
           {String(errors.terms.message)}
         </p>
       )}
-      <StyledButton type="submit">Próximo</StyledButton>
+      <StyledButton
+        disabled={isLoading}
+        onClick={() => {
+          setIsLoading(true);
+          handleSubmit(onSubmit);
+          setIsLoading(false);
+        }}
+        type="submit"
+      >
+        Próximo
+      </StyledButton>
       <StyledButton onClick={backStep}>Voltar</StyledButton>
     </Form>
   );

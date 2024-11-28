@@ -92,7 +92,7 @@ const Signup: React.FC = () => {
 
   const storeBasicInfoData = (data: any) => {
     setBasicInfoData(data);
-    handleNext();
+    setActiveStep(2);
   };
 
   const handleNext = () => {
@@ -107,6 +107,8 @@ const Signup: React.FC = () => {
     setLoginData(data);
     handleNext();
   };
+
+  console.log(activeStep);
 
   return (
     <S.Container>
@@ -185,6 +187,8 @@ const Signup: React.FC = () => {
                     initialData={basicInfoData}
                     setUserInfo={setUserInfo}
                     userInfo={UserInfo}
+                    setIsLoading={setIsLoading}
+                    isLoading={isLoading}
                   />
                 );
               case 2:
