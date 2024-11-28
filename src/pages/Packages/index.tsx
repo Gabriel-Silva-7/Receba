@@ -38,7 +38,7 @@ const MyPackages = () => {
 
   console.log(data);
 
-  if (data.length === 0) {
+  if (data.length === 0 && !loading) {
     return (
       <S.Container>
         {window.screen.width < 768 && (

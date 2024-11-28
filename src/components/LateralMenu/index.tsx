@@ -12,6 +12,7 @@ import {
   faUserGroup,
   faKey,
   faX,
+  faPencil,
 } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../context/AuthContext';
 
@@ -144,7 +145,7 @@ const LateralMenu: React.FC<LateralMenuProps> = ({ isOpen, setMenuIsOpen }) => {
               }}
             >
               <S.Icon
-                icon={faKey}
+                icon={faPencil}
                 isSelected={checkIsSelected('/updateResident')}
               />
               Atualizar Morador
