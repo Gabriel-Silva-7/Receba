@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as S from './styles';
 import { useAuth } from '../../context/AuthContext';
-import fotoTeste from '../../assets/fototeste.svg';
 import { api } from '../../config/api';
 import { Box, Modal } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -125,6 +124,7 @@ const Profile = () => {
                 Nome: e.target.value,
                 Endereco: user?.Endereco || '',
                 Celular: user?.Celular || '',
+                Imagem: user?.Imagem || '',
               })
             }
           />

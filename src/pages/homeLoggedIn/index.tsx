@@ -9,7 +9,6 @@ import HelpImg from '../../assets/helpImg.png';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import CircularProgress from '@mui/material/CircularProgress';
-import PersonIcon from '@mui/icons-material/Person';
 
 const HomeLoggedIn = () => {
   const [userHasImage, setUserHasImage] = useState<any>();
