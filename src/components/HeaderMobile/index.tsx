@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import menuIcon from '../../assets/menuHamburguer.png';
+import { useNavigate } from 'react-router-dom';
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -35,12 +36,13 @@ const HeaderMobile = ({
   isOpen: boolean;
   setMenuIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const navigate = useNavigate();
   return (
     <HeaderContainer>
       <MenuButton onClick={() => setMenuIsOpen(!isOpen)}>
         <img src={menuIcon} />
       </MenuButton>
-      <Title>Receba!</Title>
+      <Title onClick={() => navigate('/')}>Receba!</Title>
     </HeaderContainer>
   );
 };

@@ -13,7 +13,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 const HomeLoggedIn = () => {
   const [userHasImage, setUserHasImage] = useState<any>();
   const navigate = useNavigate();
-  const { name, email } = useAuth();
+  const { name, email, setImage } = useAuth();
   const [lastPackages, setLastPackages] = useState([]);
   const [user, setUser] = useState<any>({});
   const [imgLoading, setImgLoading] = useState(true);
@@ -38,6 +38,7 @@ const HomeLoggedIn = () => {
         email: email,
       });
       setUser(response.data.userDetails[0]);
+      setImage(response.data.userDetails[0].Imagem);
       setUserHasImage(response.data.userDetails[0].Imagem !== null);
     } catch (error) {
       console.error('Error fetching profile info:', error);

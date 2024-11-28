@@ -18,6 +18,8 @@ interface AuthContextType {
   name: string | undefined;
   userId: number;
   isAdmin: boolean;
+  setImage: (image: string) => void;
+  image: string | undefined;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -35,6 +37,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [name, setName] = useState<any>();
   const [userId, setUserId] = useState<any>();
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [image, setImage] = useState<string | undefined>();
   const decodedToken = token ? jwtDecode<DecodedToken>(token) : null;
 
   const initialAuthState = () => {
@@ -108,6 +111,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         name,
         userId,
         isAdmin,
+        setImage,
+        image,
       }}
     >
       {children}

@@ -13,7 +13,6 @@ import {
   faKey,
   faX,
 } from '@fortawesome/free-solid-svg-icons';
-import fotoTeste from '../../assets/fototeste.svg';
 import { useAuth } from '../../context/AuthContext';
 
 interface LateralMenuProps {
@@ -28,11 +27,10 @@ const LateralMenu: React.FC<LateralMenuProps> = ({ isOpen, setMenuIsOpen }) => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const [userHasImage] = React.useState(false);
   const checkIsSelected = (path: string) => {
     return location.pathname === path;
   };
-  const { logout, email, name } = useAuth();
+  const { logout, email, name, image } = useAuth();
   const [isAdmin, setIsAdmin] = React.useState(false);
 
   const getIsAdmin = async () => {
@@ -53,6 +51,7 @@ const LateralMenu: React.FC<LateralMenuProps> = ({ isOpen, setMenuIsOpen }) => {
 
   return (
     <>
+      <S.Overlay isOpen={isOpen} onClick={toggleMenu} />
       <S.MenuContainer isOpen={isOpen}>
         <S.MenuHeaderWrapper>
           <S.LogoWrapper>
@@ -137,11 +136,24 @@ const LateralMenu: React.FC<LateralMenuProps> = ({ isOpen, setMenuIsOpen }) => {
               />
               Controle de Lockers
             </S.MenuItem>
+            <S.MenuItem
+              isSelected={checkIsSelected('/updateResident')}
+              onClick={() => {
+                navigate('/updateResident');
+                if (window.innerWidth <= 768) setMenuIsOpen(false);
+              }}
+            >
+              <S.Icon
+                icon={faKey}
+                isSelected={checkIsSelected('/updateResident')}
+              />
+              Atualizar Morador
+            </S.MenuItem>
           </>
         )}
 
         <S.User>
-          {userHasImage ? <S.UserImg src={fotoTeste} /> : <S.LogoWrapper />}
+          {image ? <S.UserImg src={image} /> : <S.LogoWrapper />}
           <S.UserName>{name}</S.UserName>
           <S.LogoutButton onClick={() => logout()}>
             <S.LogoutIcon icon={faRightFromBracket} />

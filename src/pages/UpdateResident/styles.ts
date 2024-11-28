@@ -129,29 +129,3 @@ export const FormGroup = styled.div`
   width: 85%;
   margin-bottom: 20px;
 `;
-
-export const LoadingContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  width: 100%;
-`;
-
-export const Title = styled.h1`
-  color: #333;
-  font-family: Roboto;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  margin-bottom: 20px;
-  width: 85%;
-`;
-
-export const TitleWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-`;

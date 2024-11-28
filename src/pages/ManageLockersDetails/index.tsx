@@ -14,7 +14,7 @@ const ManageLockersDetails = () => {
   const unlockLocker = async () => {
     await api
       .post('/updateLocker', {
-        idLocker: locker?.idLocker,
+        idLocker: locker?.IdLocker,
         status: 1,
         idUser: '',
       })
@@ -25,8 +25,8 @@ const ManageLockersDetails = () => {
   const lockLocker = async () => {
     await api
       .post('/updateLocker', {
-        idLocker: locker?.idLocker,
-        status: 1,
+        idLocker: locker?.IdLocker,
+        status: 0,
         idUser: '',
       })
       .then(async response => {

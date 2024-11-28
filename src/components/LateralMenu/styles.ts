@@ -42,6 +42,7 @@ export const Logo = styled.img``;
 export const UserImg = styled.img`
   width: 41px;
   height: 41px;
+  border-radius: 50%;
 `;
 
 export const CloseButton = styled.button`
@@ -119,4 +120,18 @@ export const LogoutIcon = styled(FontAwesomeIcon)`
   width: 24px;
   height: 24px;
   margin-left: 31px;
+`;
+
+export const Overlay = styled.div<{ isOpen: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: ${({ isOpen }) => (isOpen ? '1' : '0')};
+  visibility: ${({ isOpen }) => (isOpen ? 'visible' : 'hidden')};
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+  z-index: 5;
 `;

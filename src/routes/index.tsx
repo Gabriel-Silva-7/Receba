@@ -27,6 +27,7 @@ import ManageLockers from '../pages/ManageLockers';
 import ManageLockersDetails from '../pages/ManageLockersDetails';
 import RegisterResident from '../pages/RegisterResident';
 import About from '../pages/About';
+import UpdateResident from '../pages/UpdateResident';
 
 const ConditionalNavBar = ({
   loggedIn,
@@ -126,6 +127,7 @@ function AppRoutes() {
                     path="/detailsmanagelockers"
                     element={<ManageLockersDetails />}
                   />
+                  <Route path="/updateResident" element={<UpdateResident />} />
                 </>
               )}
               <Route path="*" element={<Navigate to="/" />} />

@@ -29,6 +29,8 @@ const NewPackage = () => {
   const [userId, setUserId] = useState<any>();
   const [loading, setLoading] = useState(false);
 
+  console.log(lockerNotBusy);
+
   const getBlocks = async () => {
     const response = await api.post('/getBlock', {
       idCondominio: idCondominio,

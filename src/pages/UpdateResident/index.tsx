@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import * as S from './styles';
 import { api } from '../../config/api';
 import { useAuth } from '../../context/AuthContext';
-import { CircularProgress } from '@mui/material';
 import fotoTeste from '../../assets/condominio.jpg';
+import InputSelect from '../../components/Select';
 
-const RegisterResident = () => {
+const UpdateResident = () => {
   const [loading, setLoading] = useState<any>(false);
   const [cpf, setCpf] = useState<any>();
   const [bloco, setBloco] = useState<any>();
@@ -51,16 +51,6 @@ const RegisterResident = () => {
       });
   };
 
-  if (loading) {
-    return (
-      <S.Container>
-        <S.LoadingContainer>
-          <CircularProgress />
-        </S.LoadingContainer>
-      </S.Container>
-    );
-  }
-
   return (
     <S.Container>
       <S.Cond>
@@ -70,14 +60,14 @@ const RegisterResident = () => {
         </S.TextWrapper>
       </S.Cond>
       <S.Form>
-        <S.TitleWrapper>
-          <S.Title>Cadastro de Morador</S.Title>
-        </S.TitleWrapper>
+        <S.FormGroup>
+          <InputSelect />
+        </S.FormGroup>
         <S.FormGroup>
           <S.Label htmlFor="cpf">CPF</S.Label>
           <S.Input
             value={cpf}
-            onChange={e => {
+            onChange={(e: { target: { value: string } }) => {
               const numericValue = e.target.value.replace(/\D/g, '');
               setCpf(numericValue);
             }}
@@ -90,7 +80,9 @@ const RegisterResident = () => {
           <S.Label htmlFor="bloco">Bloco</S.Label>
           <S.Input
             value={bloco}
-            onChange={e => setBloco(e.target.value)}
+            onChange={(e: { target: { value: any } }) =>
+              setBloco(e.target.value)
+            }
             id="bloco"
             type="text"
             placeholder="Bloco"
@@ -100,7 +92,9 @@ const RegisterResident = () => {
           <S.Label htmlFor="apartamento">Apartamento</S.Label>
           <S.Input
             value={apartamento}
-            onChange={e => setApartamento(e.target.value)}
+            onChange={(e: { target: { value: any } }) =>
+              setApartamento(e.target.value)
+            }
             id="apartamento"
             type="text"
             placeholder="Apartamento"
@@ -117,4 +111,4 @@ const RegisterResident = () => {
   );
 };
 
-export default RegisterResident;
+export default UpdateResident;
